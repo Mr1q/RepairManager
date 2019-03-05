@@ -24,14 +24,14 @@
             android:id="@+id/repair"/>
 
     </FrameLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/light" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:background="@color/light" />-->
 <android.support.v7.widget.RecyclerView
     android:layout_width="match_parent"
     android:id="@+id/first_msg"
-    android:layout_height="450dp">
+    android:layout_height="match_parent">
 
 </android.support.v7.widget.RecyclerView>
 

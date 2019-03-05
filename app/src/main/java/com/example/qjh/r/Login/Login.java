@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -61,6 +62,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
             finish();
         }
+        Log.d("qjh","45656456");
         Initial();
 
 
