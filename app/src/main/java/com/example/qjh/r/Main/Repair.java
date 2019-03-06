@@ -79,12 +79,12 @@ public class Repair extends BaseActivity implements View.OnClickListener {
     private Uri destinationUri;
     private Uri croppedUri;
     private  static   Intent intent;//接受列表传值
-    private User user;
+    public static User user= BmobUser.getCurrentUser(User.class);;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hand_in);
-      user= BmobUser.getCurrentUser(User.class);
+
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5c1e38ff");
         intent=getIntent();
         inti();
@@ -176,8 +176,6 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 return false;
             }
         });
-
-
         change(); //文字变化监听
         //接受活动传回来的数据
         Receive();
@@ -198,7 +196,8 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 Voice voice = new Voice();
                 voice.initSpeech(this);
             case R.id.put:
-             final    ArrayList<Message_Bomb> message_bombs=new ArrayList<>();
+             final
+              ArrayList<Message_Bomb> message_bombs=new ArrayList<>();
                 final Message_Bomb message_bomb=new Message_Bomb();
                 message_bomb.setTitle(Msg.getText().toString());
                 message_bomb.setMsg(write.getText().toString());
@@ -207,7 +206,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 message_bomb.setNumber(usernumber.getText().toString());
                 message_bomb.setPhone(phone_number.getText().toString());
                 message_bomb.setTime(gettime.getText().toString());
-              //  message_bomb.setId(user.getObjectId());
+                message_bomb.setIdd(user.getObjectId());
                 message_bomb.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {
@@ -217,6 +216,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                             Fragment2.fruitList.add(message_bomb);
                             Fragment2.fruit_adapter.notifyDataSetChanged();
                             Toast.makeText(Repair.this,"提交成功",Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
                 });

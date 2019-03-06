@@ -31,34 +31,34 @@ public class Register extends BaseActivity  implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         user_numebr=(EditText)findViewById(R.id.account_input);
-        user_numebr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    user_numebr.setText("");
-                } else {
-                    if(user_numebr.getText().equals(""))
-                    {
-                        user_numebr.setText("请输入注册的账号");
-                    }
-                }
-            }
-        });
+//        user_numebr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    user_numebr.setText("");
+//                } else {
+//                    if(user_numebr.getText().equals(""))
+//                    {
+//                        user_numebr.setText("请输入注册的账号");
+//                    }
+//                }
+//            }
+//        });
         user_password=(EditText)findViewById(R.id.password_input);
-        user_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    user_password.setText("");
-
-                } else {
-                    if(user_password.getText().equals(""))
-                    {
-                        user_password.setText("请输入6-12位字符");
-                    }
-                }
-            }
-        });
+//        user_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    user_password.setText("");
+//
+//                } else {
+//                    if(user_password.getText().equals(""))
+//                    {
+//                        user_password.setText("请输入6-12位字符");
+//                    }
+//                }
+//            }
+//        });
         user_password_again=(EditText)findViewById(R.id.password_again);
 //        user_password_again.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override

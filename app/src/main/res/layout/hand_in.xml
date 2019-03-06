@@ -290,12 +290,12 @@
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center|top"
-                android:layout_marginRight="120dp"
-                android:src="@mipmap/xx" />
+            <!--<ImageView-->
+                <!--android:layout_width="15dp"-->
+                <!--android:layout_height="15dp"-->
+                <!--android:layout_gravity="center|top"-->
+                <!--android:layout_marginRight="120dp"-->
+                <!--android:src="@mipmap/xx" />-->
 
             <EditText
                 android:id="@+id/username"
@@ -308,7 +308,7 @@
                 android:background="@null"
                 android:hint="输入姓名"
                 android:inputType="text"
-                android:textColorHint="@color/light"
+                android:textColorHint="@color/Red"
                 android:textSize="17dp" />
 
         </FrameLayout>
@@ -342,7 +342,7 @@
                 android:background="@null"
                 android:hint="输入电话"
                 android:inputType="number"
-                android:textColorHint="@color/light"
+                android:textColorHint="@color/Red"
                 android:textSize="17dp" />
 
         </FrameLayout>

@@ -44,13 +44,13 @@ public class Fragment2 extends Fragment implements  View.OnClickListener{
     public  void init()
     {
          fruitList=new ArrayList<>();
-        for(int i=0;i<4;i++)
-        {
-            Message_Bomb fruit1=new Message_Bomb("家电","水","xxxx","xxx","xxx","","12");
-            fruitList.add(fruit1);
-            Message_Bomb fruit2=new Message_Bomb("12sad","电路","12ds","12","12","12","12");
-            fruitList.add(fruit2);
-        }
+//        for(int i=0;i<4;i++)
+//        {
+//            Message_Bomb fruit1=new Message_Bomb("家电","水","xxxx","xxx","xxx","","12");
+//            fruitList.add(fruit1);
+//            Message_Bomb fruit2=new Message_Bomb("12sad","电路","12ds","12","12","12","12");
+//            fruitList.add(fruit2);
+//        }
          recyclerView=(RecyclerView)view.findViewById(R.id.first_msg);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -65,8 +65,6 @@ public class Fragment2 extends Fragment implements  View.OnClickListener{
                 intent.putExtra("2",message_bomb.getName());
                 intent.putExtra("3",message_bomb.getTime());
                 intent.putExtra("4",message_bomb.getMsg());
-
-
                 startActivity(intent);
             }
         });

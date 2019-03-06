@@ -24,9 +24,12 @@ import com.example.qjh.r.Main.Repair;
 import com.example.qjh.r.R;
 
 import java.util.Calendar;
+import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /*
@@ -53,6 +56,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.user_message, container, false);
         init();
+        Init_Meg();
         return view;
     }
 
@@ -71,6 +75,31 @@ public class Fragment3 extends Fragment implements View.OnClickListener {
         modify = (Button) view.findViewById(R.id.modify);
         modify.setOnClickListener(this);
         save.setOnClickListener(this);
+
+
+
+    }
+
+    public void Init_Meg() {
+        BmobQuery<User> query=new BmobQuery<>();
+        query.addWhereEqualTo("objectId",user.getObjectId());
+        query.findObjects(new FindListener<User>() {
+            @Override
+            public void done(List<User> list, BmobException e) {
+                if(e==null)
+                {
+                    for(User users:list)
+                    {
+                        username2.setText(users.getName());
+                        address.setText(users.getAddress());
+                        riqi.setText(users.getRiqi());
+                        mail_1.setText(users.getMail());
+                    }
+                }
+            }
+        });
+
+
 
     }
 
@@ -123,7 +152,7 @@ public class Fragment3 extends Fragment implements View.OnClickListener {
 
     private void Save() {
 
-        user.setUsername(username2.getText().toString());
+        user.setName(username2.getText().toString());
         user.setAddress(address.getText().toString());
         user.setRiqi(riqi.getText().toString());
         user.setMail(mail_1.getText().toString());

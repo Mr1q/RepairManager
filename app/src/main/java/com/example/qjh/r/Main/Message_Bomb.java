@@ -8,7 +8,16 @@ public class Message_Bomb extends BmobObject {
     private String area2;//二级区域
     private String obj_Name;//项目名字
     private String Msg;//问题描述
-    private  String picture;//图片
+    private String picture;//图片
+    private String idd;
+    public void setIdd(String  iddd)
+    {
+        this.idd=iddd;
+    }
+    public String getIdd()
+    {
+        return this.idd;
+    }
 
     public String getPhone() {
         return phone;
@@ -18,25 +27,26 @@ public class Message_Bomb extends BmobObject {
         this.phone = phone;
     }
 
-    private  String phone;
+    private String phone;
     private String number;
     private String name;
     private String time;
     private String Id; //身份id
-    public  Message_Bomb(String title,String obj_Name,String Msg,String number, String name, String phone,String time)
-    {
-        this.title=title;
-        this.obj_Name=obj_Name;
-        this.Msg=Msg;
-        this.number=number;
-        this.name=name;
-        this.phone=phone;
-        this.time=time;
+
+    public Message_Bomb(String title, String obj_Name, String Msg, String number, String name, String phone, String time) {
+        this.title = title;
+        this.obj_Name = obj_Name;
+        this.Msg = Msg;
+        this.number = number;
+        this.name = name;
+        this.phone = phone;
+        this.time = time;
     }
-    public  Message_Bomb()
-    {
+
+    public Message_Bomb() {
 
     }
+
     public String getNumber() {
         return number;
     }
@@ -62,13 +72,12 @@ public class Message_Bomb extends BmobObject {
     }
 
 
-
     public String getId() {
         return Id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.Id = id;
     }
 
 
