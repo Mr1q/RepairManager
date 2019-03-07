@@ -3,13 +3,18 @@ package com.example.qjh.r.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.example.qjh.r.R;
+
+import java.security.Key;
 
 import javax.xml.transform.Result;
 
@@ -25,59 +30,42 @@ public class Register extends BaseActivity  implements View.OnClickListener{
     private Button reg; //注册
     private ImageButton Back;//返回键
     private EditText user_password_again;// 确认密码
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         user_numebr=(EditText)findViewById(R.id.account_input);
-//        user_numebr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    user_numebr.setText("");
-//                } else {
-//                    if(user_numebr.getText().equals(""))
-//                    {
-//                        user_numebr.setText("请输入注册的账号");
-//                    }
-//                }
-//            }
-//        });
         user_password=(EditText)findViewById(R.id.password_input);
-//        user_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    user_password.setText("");
-//
-//                } else {
-//                    if(user_password.getText().equals(""))
-//                    {
-//                        user_password.setText("请输入6-12位字符");
-//                    }
-//                }
-//            }
-//        });
         user_password_again=(EditText)findViewById(R.id.password_again);
-//        user_password_again.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    user_password.setText("");
-//                } else {
-//                    if(user_password.getText().equals(""))
-//                    {
-//                        user_password.setText("请输入6-12位字符");
-//                    }
-//                }
-//            }
-//        });
+        toolbar=(Toolbar)findViewById(R.id.toolbar2);
+        toolbar.setTitle("注册");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
+        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
 
         reg=(Button)findViewById(R.id.reg );
-        Back=(ImageButton)findViewById(R.id.back1);
-        Back.setOnClickListener(this);
+    //    Back=(ImageButton)findViewById(R.id.back1);
+//        Back.setOnClickListener(this);
         reg.setOnClickListener(this);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+
+
     }
 
     @Override
@@ -108,8 +96,7 @@ public class Register extends BaseActivity  implements View.OnClickListener{
                 }
 
                 break;
-            case R.id.back1:
-                finish();
+
 
         }
     }

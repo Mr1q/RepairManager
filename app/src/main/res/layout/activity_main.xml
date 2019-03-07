@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:text="跳  过"
         android:layout_gravity="end"
-        android:background="@null"
-        android:textSize="15dp"/>
+        android:background="@drawable/pass_ani"
+        android:textSize="15dp"
+        android:id="@+id/pass_Button"/>
 
 
 </FrameLayout>

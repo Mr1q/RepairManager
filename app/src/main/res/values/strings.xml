@@ -12,4 +12,7 @@
                         "饮水机故障:请直接电话报修，联系电\n" +
                         "话:13607734136\n" +
                         "提示:为了让维修师傅更好地了解现场情况，请您在报修时，拍摄现场照片并上传，谢谢您的配合</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

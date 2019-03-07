@@ -19,12 +19,14 @@
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">14sp</item>
     </style>
-
+s
     <style name="teex">
         <item name="android:top">25dp</item>
         <item name="android:layout_margin">25dp</item>
     </style>
 
-
+    <!--<style name="myStyle" parent="AppTheme">-->
+        <!--<item name="android:statusBarColor">#4999e3</item>-->
+    <!--</style>-->
 
 </resources>

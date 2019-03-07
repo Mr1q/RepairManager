@@ -19,6 +19,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.qjh.r.Main.Repair;
 import com.example.qjh.r.R;
@@ -52,6 +53,11 @@ public class Login extends BaseActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+//        //透明状态栏
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        //透明导航栏
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         Bmob.initialize(this, "dff48d937894d6983e2c968c69468565");
         if (savedInstanceState != null) {
             User_Number.setText(savedInstanceState.getString("User_number"));
@@ -62,7 +68,6 @@ public class Login extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
             finish();
         }
-        Log.d("qjh","45656456");
         Initial();
 
 
@@ -72,6 +77,10 @@ public class Login extends BaseActivity implements View.OnClickListener {
     初始化控件
      */
     public void Initial() {
+        toolbar=(Toolbar)findViewById(R.id.toolbar_title);
+        toolbar.setTitle("登录界面");
+        this.setSupportActionBar(toolbar);
+
         password_Hint = (ToggleButton) findViewById(R.id.password_Hint);
         password = (EditText) findViewById(R.id.password);
         User_Number = (EditText) findViewById(R.id.user_Number);
@@ -97,6 +106,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
             }
         });
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

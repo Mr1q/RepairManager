@@ -196,7 +196,6 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 Voice voice = new Voice();
                 voice.initSpeech(this);
             case R.id.put:
-             final
               ArrayList<Message_Bomb> message_bombs=new ArrayList<>();
                 final Message_Bomb message_bomb=new Message_Bomb();
                 message_bomb.setTitle(Msg.getText().toString());
@@ -220,6 +219,8 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                         }
                     }
                 });
+
+
                 break;
 
             case R.id.total_Hand:

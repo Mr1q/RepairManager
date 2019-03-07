@@ -39,10 +39,10 @@ import SQlite.Text4;
 
 public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder> {
 
-    private List<Message_Bomb> MFruitList;
+    private List<Message_Bomb> MFirstList;
     private  OnItemClickListener onItemClickListener;
     public First_Adapter(List<Message_Bomb> fruitList) {
-        this.MFruitList = fruitList;
+        this.MFirstList = fruitList;
     }
 
     @NonNull
@@ -54,7 +54,7 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
             @Override
             public void onClick(View v) {
                 int position=viewHolder.getAdapterPosition();
-                Message_Bomb message_bomb=MFruitList.get(position);
+                Message_Bomb message_bomb=(Message_Bomb)MFirstList.get(position);
                 onItemClickListener.onClick(position);
 
             }
@@ -72,7 +72,7 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
         return viewHolder;
     }
     public void removeItem(int pos){
-        MFruitList.remove(pos);
+        MFirstList.remove(pos);
         notifyItemRemoved(pos);
     }
     public interface OnItemClickListener{
@@ -80,7 +80,7 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull final First_Adapter.ViewHolder viewHolder, int i) {
-        Message_Bomb msg = MFruitList.get(i);
+        Message_Bomb msg = MFirstList.get(i);
         viewHolder.container.setText(msg.getTitle());
         viewHolder.container2.setText(msg.getObj_Name());
         viewHolder.nuMber.setText(msg.getNumber());
@@ -95,7 +95,7 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return MFruitList.size();
+        return MFirstList.size();
     }
 
 
@@ -113,7 +113,7 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            container = (TextView) itemView.findViewById(R.id.container);
+            container = (TextView) itemView.findViewById(R.id.containers);
             container2= (TextView) itemView.findViewById(R.id.container2);
             nuMber = (TextView) itemView.findViewById(R.id.nuMber);
             name = (TextView) itemView.findViewById(R.id.name);

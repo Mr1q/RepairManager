@@ -10,23 +10,6 @@ public class Message_Bomb extends BmobObject {
     private String Msg;//问题描述
     private String picture;//图片
     private String idd;
-    public void setIdd(String  iddd)
-    {
-        this.idd=iddd;
-    }
-    public String getIdd()
-    {
-        return this.idd;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     private String phone;
     private String number;
     private String name;
@@ -42,9 +25,22 @@ public class Message_Bomb extends BmobObject {
         this.phone = phone;
         this.time = time;
     }
+    public Message_Bomb() {}
+    public void setIdd(String  iddd)
+    {
+        this.idd=iddd;
+    }
+    public String getIdd()
+    {
+        return this.idd;
+    }
 
-    public Message_Bomb() {
+    public String getPhone() {
+        return phone;
+    }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getNumber() {
@@ -71,7 +67,6 @@ public class Message_Bomb extends BmobObject {
         this.time = time;
     }
 
-
     public String getId() {
         return Id;
     }
@@ -79,7 +74,6 @@ public class Message_Bomb extends BmobObject {
     public void setId(String id) {
         this.Id = id;
     }
-
 
     public void setTitle(String title) {
         this.title = title;
@@ -94,7 +88,6 @@ public class Message_Bomb extends BmobObject {
     }
 
     public void setPicture(String picture) {
-
         this.picture = picture;
     }
 

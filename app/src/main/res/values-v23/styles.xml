@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="myStyle" parent="AppTheme">
+        <item name="android:statusBarColor">#4999e3</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="myStyle2" parent="AppTheme">
+        <item name="android:statusBarColor">#eef6522c</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

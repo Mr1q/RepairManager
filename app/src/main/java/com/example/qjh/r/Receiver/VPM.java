@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -32,11 +33,12 @@ public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewpage);
         setVp();
+        Log.d("qjh","成功导入");
     }
     private void setVp() {
         bottomNavigationBar=(BottomNavigationBar)findViewById(R.id.bottom);
         bottomNavigationBar.setTabSelectedListener((BottomNavigationBar.OnTabSelectedListener) this);
-        badgeItem = new BadgeItem().setBackgroundColor(Color.RED).setText("0");
+        badgeItem = new BadgeItem().setBackgroundColor(Color.RED).setText(String.valueOf(Fragment2.getnumber()));
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         bottomNavigationBar.setBarBackgroundColor(R.color.blue);
@@ -50,7 +52,7 @@ public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener 
         arrayList.add(new Fragment2());
         arrayList.add(new Fragment1());
         arrayList.add(new Fragment3());
-         vp = (ViewPager) findViewById(R.id.vp);
+        vp = (ViewPager) findViewById(R.id.vp);
         vp.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(),arrayList));
         vp.addOnPageChangeListener(this);
         vp.setCurrentItem(0);
@@ -64,16 +66,16 @@ public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener 
     @Override
     public void onPageSelected(int i) {
         bottomNavigationBar.selectTab(i);
-        if(i==1)
+        if(i==1||i==2)
         {
             badgeItem.hide();
-            badgeItem.setText("0");
         }
         else
         {
             badgeItem.show();
             badgeItem.setText(String.valueOf(Fragment2.getnumber()));
         }
+
     }
 
     @Override
