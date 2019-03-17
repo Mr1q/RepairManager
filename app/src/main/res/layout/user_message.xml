@@ -4,319 +4,338 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-
-    <!--<FrameLayout-->
-        <!--style="@style/top">-->
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="50dp">
-        <!--<ImageView-->
-            <!--android:id="@+id/return_1"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@mipmap/back" />-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/Return_Msg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/click_more"
+            android:src="@mipmap/back" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="个 人 信 息"
-            android:textSize="17dp"
-            android:layout_gravity="center"
-            android:textColor="#0000CD"/>
-        <ImageButton
-            android:id="@+id/over"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/over"
-            android:background="@null"
-            android:layout_margin="2dp"
-            android:layout_gravity="end"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:orientation="horizontal"
-        android:layout_height="100dp"
-        android:layout_width="match_parent"
-       >
-
-        <ImageView
-            android:id="@+id/message_image"
-            android:layout_height="70dp"
-            android:layout_width="70dp"
-            android:layout_gravity="center"
-            android:src="@drawable/reg"
-            android:layout_centerInParent="true"/>
-
-    </FrameLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:orientation="vertical"
-        android:layout_marginTop="27dp">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:padding="2dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <ImageView
-                android:src="@mipmap/z"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="8dp"/>
-            <TextView
-                android:id="@+id/username1"
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:background="@null"
-                android:text="用户名"
-                android:gravity="center_vertical"
-                android:textColor="@android:color/darker_gray"
-                android:textColorHint="@android:color/black"
-                android:textSize="14sp"
-
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/username2"
-                android:maxLines="1"
-                android:gravity="center|right"
-                android:layout_marginRight="10dp"
-                android:background="@null"
-                />
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:padding="2dp" />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_height="44dp"
-            android:layout_width="match_parent"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_height="25dp"
-                android:layout_width="25dp"
-                android:src="@mipmap/z1"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="15dp"/>
-
-            <TextView
-                android:background="@null"
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:id="@+id/Mail1"
-                android:textSize="14sp"
-                android:gravity="center_vertical"
-                android:textColor="@android:color/darker_gray"
-                android:textColorHint="@android:color/black"
-                android:text="邮箱"/>
-            <EditText
-                android:maxLines="1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/mail_1"
-                android:gravity="center|right"
-                android:layout_marginRight="10dp"
-                android:background="@null"
-                />
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:padding="2dp" />
-        <TableLayout
-            android:orientation="horizontal"
-            android:layout_height="44dp"
-            android:layout_width="match_parent"
-            android:gravity="center">
-      <TableRow>
-          <ImageView
-              android:layout_height="25dp"
-              android:layout_width="25dp"
-              android:src="@mipmap/z2"
-              android:layout_marginTop="2dp"
-              android:layout_marginRight="8dp"
-              android:layout_marginLeft="15dp"/>
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="性别"
-              android:layout_marginTop="4dp"
-              android:textSize="14sp"
-              android:layout_marginRight="5dp"/>
-          <RadioGroup
-              android:id="@+id/rg"
-              android:orientation="horizontal"
-              android:layout_marginLeft="110dp"
-              android:layout_gravity="center">
-              <RadioButton
-                  android:id="@+id/male"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:checked="true"
-                  android:enabled="false"
-                  android:text="男" />
-              <RadioButton
-                  android:enabled="false"
-                  android:id="@+id/femle"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:checked="false"
-                  android:text="女"/>
-          </RadioGroup>
-
-
-
-      </TableRow>
-        </TableLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:padding="2dp" />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_height="44dp"
-            android:layout_width="match_parent"
-            >
-
-            <ImageView
-                android:layout_height="25dp"
-                android:layout_width="25dp"
-                android:src="@mipmap/z3"
-                android:layout_gravity="center"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="15dp"/>
-
-            <TextView
-                android:background="@null"
-                android:layout_height="fill_parent"
-                android:layout_width="wrap_content"
-                android:id="@+id/birthday"
-                android:textSize="14sp"
-                android:gravity="center_vertical"
-                android:textColor="@android:color/darker_gray"
-                android:textColorHint="@android:color/black"
-                android:text="生日"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="日期"
-                android:layout_marginLeft="180dp"
-                android:background="@null"
-                android:id="@+id/riqi"
-                />
-            <!--<EditText-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:id="@+id/birthday_1"-->
-                <!--android:maxLines="1"-->
-                <!--android:gravity="center|right"-->
-                <!--android:inputType="numberSigned"-->
-                <!--android:background="@null"-->
-                <!--/>-->
-
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:padding="2dp" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="44dp"
-        android:layout_width="match_parent"
-        android:gravity="left">
-
-        <ImageView
-            android:layout_height="25dp"
-            android:layout_width="25dp"
-            android:src="@mipmap/z5"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="15dp"/>
-
-        <TextView
-            android:background="@null"
-            android:layout_height="fill_parent"
-            android:layout_width="wrap_content"
-            android:textSize="14sp"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/darker_gray"
-            android:textColorHint="@android:color/black"
-            android:text="地址"/>
-        <EditText
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/address"
-            android:gravity="center|right"
-            android:inputType="text"
-            android:maxLines="1"
-            android:background="@null"
-            />
-
-    </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#07a6e6"/>
-
+            android:textColor="#060606"
+            android:textSize="17dp" />
         <FrameLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_gravity="end"
             >
-
             <Button
+                android:id="@+id/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:layout_gravity="center"
+                android:background="@null"
                 android:text="保存"
-                android:id="@+id/save"
-                android:visibility="gone"
-                android:background="@drawable/shape"
-                android:layout_gravity="center"/>
+                android:textSize="15dp"
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/modify"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="修改"
-                android:textSize="15dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/shape"
-                />
+                android:background="@null"
+                android:text="修改"
+                android:textSize="15dp" />
         </FrameLayout>
 
 
+    </FrameLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/message_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:src="@mipmap/reg" />
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:orientation="vertical">
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="?android:attr/listDivider"-->
+                <!--android:padding="2dp" />-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:padding="2dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/z" />
+
+                <TextView
+                    android:id="@+id/username1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="用户名"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="14sp"
+
+                    />
+
+                <EditText
+                    android:id="@+id/username2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:gravity="center|right"
+                    android:maxLines="1"
+                    android:enabled="false"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:padding="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/z1" />
+
+                <TextView
+                    android:id="@+id/Mail1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="学号"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/mail_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:gravity="center|right"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:maxLines="1" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:padding="2dp" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TableRow>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="2dp"
+                        android:src="@mipmap/z2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="4dp"
+                        android:text="性别"
+                        android:textSize="14sp" />
+
+                    <RadioGroup
+                        android:id="@+id/rg"
+                        android:layout_gravity="center"
+
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:enabled="false"
+                            android:text="男" />
+                        <RadioButton
+                            android:id="@+id/femle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:enabled="false"
+                            android:text="女" />
+                    </RadioGroup>
+
+                </TableRow>
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:padding="2dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/z3" />
+
+                <TextView
+                    android:id="@+id/birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="center_vertical"
+                    android:text="生日"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/riqi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="日期" />
+
+            </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:padding="2dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/z5" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="地址"
+                android:textColor="@android:color/darker_gray"
+                android:textColorHint="@android:color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:gravity="center|right"
+                android:inputType="text"
+                android:maxLines="1"
+                android:enabled="false"/>
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:id="@+id/over">
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:background="@null"
+            android:src="@mipmap/over" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignRight="@+id/over"
+            android:layout_gravity="center_horizontal"
+            android:text="用户退出"
+            android:gravity="center_vertical"/>
+
     </LinearLayout>
 
-
-
-
-
-
-
-
 </LinearLayout>
+
+

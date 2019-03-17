@@ -9,10 +9,11 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
 
 public class User extends BmobUser {
    private String Name;
-    private String mail;
+    private String number;
     private String sex;
     private String riqi;
     private String address;
+    private  BmobFile image;
     public String getName() {
         return Name;
     }
@@ -21,13 +22,7 @@ public class User extends BmobUser {
         this.Name = name;
     }
 
-    public String getMail() {
-        return mail;
-    }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
 
     public String getSex() {
         return sex;
@@ -51,76 +46,20 @@ public class User extends BmobUser {
     public String getAddress() {
      return address;
     }
-//    /**
-//     * 昵称
-//     */
-//    private String nickname;
-//
-//    /**
-//     * 年龄
-//     */
-//    private Integer age;
-//
-//    /**
-//     * 性别
-//     */
-//    private Integer gender;
-//
-//    /**
-//     * 头像
-//     */
-//    private BmobFile avatar;
-//
-//    /**
-//     * 别名
-//     */
-//    private List<String> alias;
-//
-//
-//    public String getNickname() {
-//        return nickname;
-//    }
-//
-//    public User setNickname(String nickname) {
-//        this.nickname = nickname;
-//        return this;
-//    }
-//
-//    public Integer getAge() {
-//        return age;
-//    }
-//
-//    public User setAge(Integer age) {
-//        this.age = age;
-//        return this;
-//    }
-//
-//    public Integer getGender() {
-//        return gender;
-//    }
-//
-//    public User setGender(Integer gender) {
-//        this.gender = gender;
-//        return this;
-//    }
-//
-//
-//
-//    public BmobFile getAvatar() {
-//        return avatar;
-//    }
-//
-//    public User setAvatar(BmobFile avatar) {
-//        this.avatar = avatar;
-//        return this;
-//    }
-//
-//    public List<String> getAlias() {
-//        return alias;
-//    }
-//
-//    public User setAlias(List<String> alias) {
-//        this.alias = alias;
-//        return this;
-//    }
+
+    public BmobFile getImage() {
+        return image;
+    }
+
+    public void setImage(BmobFile image) {
+        this.image = image;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 }

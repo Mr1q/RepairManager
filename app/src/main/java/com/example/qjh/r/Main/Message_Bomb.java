@@ -1,42 +1,43 @@
 package com.example.qjh.r.Main;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 public class Message_Bomb extends BmobObject {
     private String title; //标题
     private String area1; //一级区域
     private String area2;//二级区域
-    private String obj_Name;//项目名字
+    private String Location;//位置
+    private String obj_Name;//报修项目
     private String Msg;//问题描述
-    private String picture;//图片
-    private String idd;
-    private String phone;
-    private String number;
-    private String name;
-    private String time;
-    private String Id; //身份id
 
-    public Message_Bomb(String title, String obj_Name, String Msg, String number, String name, String phone, String time) {
-        this.title = title;
-        this.obj_Name = obj_Name;
-        this.Msg = Msg;
-        this.number = number;
-        this.name = name;
-        this.phone = phone;
-        this.time = time;
+    private BmobFile picture;//图片
+    private String idd;
+    private String phone; //联系电话
+    private String number; //学号
+    private String name; //联系人姓名
+    private String time; //预约时间
+
+    private String Self;//
+
+    public String getLocation() {
+        return Location;
     }
-    public Message_Bomb() {}
-    public void setIdd(String  iddd)
-    {
-        this.idd=iddd;
+
+    public void setLocation(String location) {
+        Location = location;
     }
-    public String getIdd()
-    {
+
+    public void setIdd(String iddd) {
+        this.idd = iddd;
+    }
+
+    public String getIdd() {
         return this.idd;
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
     public void setPhone(String phone) {
@@ -67,14 +68,6 @@ public class Message_Bomb extends BmobObject {
         this.time = time;
     }
 
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String id) {
-        this.Id = id;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -83,11 +76,13 @@ public class Message_Bomb extends BmobObject {
         this.area1 = area1;
     }
 
-    public String getPicture() {
+    public BmobFile getPicture() {
         return picture;
     }
-
-    public void setPicture(String picture) {
+    public String getPicture_uri() {
+        return picture.getFileUrl();
+    }
+    public void setPicture(BmobFile picture) {
         this.picture = picture;
     }
 
@@ -122,5 +117,38 @@ public class Message_Bomb extends BmobObject {
 
     public String getMsg() {
         return Msg;
+    }
+
+    public Message_Bomb(String title, String obj_Name, String location, String number, String name,  String time,String area1,String area2,String msg,String phone,BmobFile picture,String self) {
+        this.title = title;
+        this.obj_Name = obj_Name;
+        this.Location = location;
+        this.number = number;
+        this.name = name;
+        this.time = time;
+        this.area1=area1;
+        this.area2=area2;
+        this.phone=phone;
+        this.Msg=msg;
+        this.picture=picture;
+        this.Self=self;
+
+    }
+    public Message_Bomb(String title, String obj_Name, String location, String number, String name,  String time) {
+        this.title = title;
+        this.obj_Name = obj_Name;
+        this.Location = location;
+        this.number = number;
+        this.name = name;
+        this.time = time;
+    }
+    public Message_Bomb() {}
+
+    public String getSelf() {
+        return Self;
+    }
+
+    public void setSelf(String self) {
+        Self = self;
     }
 }

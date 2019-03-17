@@ -3,14 +3,18 @@ package com.example.qjh.r.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
+import android.widget.ToggleButton;
 
 import com.example.qjh.r.R;
 
@@ -31,7 +35,8 @@ public class Register extends BaseActivity  implements View.OnClickListener{
     private ImageButton Back;//返回键
     private EditText user_password_again;// 确认密码
     private Toolbar toolbar;
-
+    private ToggleButton Hide1;
+    private ToggleButton Hide2;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,16 +44,50 @@ public class Register extends BaseActivity  implements View.OnClickListener{
         user_numebr=(EditText)findViewById(R.id.account_input);
         user_password=(EditText)findViewById(R.id.password_input);
         user_password_again=(EditText)findViewById(R.id.password_again);
+        Hide1=(ToggleButton)findViewById(R.id.password_Hint2);
+        Hide2=(ToggleButton)findViewById(R.id.password_Hint3);
+
         toolbar=(Toolbar)findViewById(R.id.toolbar2);
         toolbar.setTitle("注册");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-
         reg=(Button)findViewById(R.id.reg );
-    //    Back=(ImageButton)findViewById(R.id.back1);
-//        Back.setOnClickListener(this);
         reg.setOnClickListener(this);
+
+        Hide1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //如果选中，显示密码
+                    user_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    user_password.setSelection(user_password.getText().toString().length()); //调整光标的位置到最后
+                    Hide1.setBackgroundResource(R.mipmap.appear); //调整图标
+                } else {
+                    //否则隐藏密码
+                    user_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    user_password.setSelection(user_password.getText().toString().length()); //调整光标的位置到最后
+                    Hide1.setBackgroundResource(R.mipmap.hint);  //调整图标
+                }
+            }
+        });
+        Hide2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //如果选中，显示密码
+                    user_password_again.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    user_password_again.setSelection(user_password_again.getText().toString().length()); //调整光标的位置到最后
+                    Hide2.setBackgroundResource(R.mipmap.appear); //调整图标
+                } else {
+                    //否则隐藏密码
+                    user_password_again.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    user_password_again.setSelection(user_password_again.getText().toString().length()); //调整光标的位置到最后
+                    Hide1.setBackgroundResource(R.mipmap.hint);  //调整图标
+                }
+            }
+        });
+
     }
 
 
@@ -60,7 +99,6 @@ public class Register extends BaseActivity  implements View.OnClickListener{
                 finish();
                 break;
         }
-
 
 
         return super.onOptionsItemSelected(item);
@@ -94,7 +132,6 @@ public class Register extends BaseActivity  implements View.OnClickListener{
                         }
                     });
                 }
-
                 break;
 
 

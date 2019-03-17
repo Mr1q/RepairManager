@@ -42,10 +42,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+
+        >
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.qjh.r.fileprovider"
+            android:authorities="text"
             android:exported="false"
             android:grantUriPermissions="true">
             <!--提供共享路径-->
@@ -58,7 +60,9 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="dGe61F3qLk03z2rtxVXk0tQYl46mQtbf" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/myStyle3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -66,14 +70,16 @@
         </activity>
         <activity
             android:name=".Login.Login"
+            android:configChanges="orientation|keyboard|keyboardHidden|uiMode"
             android:theme="@style/myStyle">//登录界面
 
-        </activity>
-        <activity android:name=".Text">
+
 
         </activity>
-        <activity android:name=".Login.Register"
-            android:theme="@style/myStyle"/>    //注册界面
+        <activity
+            android:name=".Login.Register"
+            android:theme="@style/myStyle" />
+        //注册界面
 
         <service
             android:name="com.baidu.location.f"
@@ -91,17 +97,19 @@
 
         <activity
             android:name=".Receiver.VPM"
-            android:theme="@style/myStyle2"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/myStyle2">
 
         </activity>
         <activity android:name=".Loc">
-
         </activity>
-        <activity android:name=".Main.Repair">
-
+        <activity android:name=".Main.Repair"
+            android:theme="@style/myStyle2">
         </activity>
         <activity android:name=".Main.Hand_in_Msg"></activity>
+        <activity android:name=".UserMessage.Evaluate"
+            android:theme="@style/myStyle2"/>
+        <activity android:name=".UserMessage.User_Enter_msg"/>
     </application>
 </manifest>
 

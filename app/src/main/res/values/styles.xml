@@ -19,14 +19,10 @@
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">14sp</item>
     </style>
-s
-    <style name="teex">
-        <item name="android:top">25dp</item>
-        <item name="android:layout_margin">25dp</item>
+    <style name="myStyle3" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-
-    <!--<style name="myStyle" parent="AppTheme">-->
-        <!--<item name="android:statusBarColor">#4999e3</item>-->
-    <!--</style>-->
-
 </resources>

@@ -1,21 +1,34 @@
 package com.example.qjh.r.Main;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Person;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -27,29 +40,41 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.qjh.r.Adapter.First_Adapter;
 import com.example.qjh.r.Fragment.Fragment2;
 import com.example.qjh.r.Login.User;
 import com.example.qjh.r.R;
+import com.example.qjh.r.Receiver.VPM;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import Control.BaseActivity;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 public class Repair extends BaseActivity implements View.OnClickListener {
     final String[] spinnerItem = {"请选择", "花江", "金鸡岭", "西区"};
@@ -76,23 +101,35 @@ public class Repair extends BaseActivity implements View.OnClickListener {
     private ImageView pane;
     // 照片所在的Uri地址
     private Uri imageUri;
-    private Uri destinationUri;
-    private Uri croppedUri;
-    private  static   Intent intent;//接受列表传值
-    public static User user= BmobUser.getCurrentUser(User.class);;
+    private static Intent intent;//接受列表传值
+    public static User user = BmobUser.getCurrentUser(User.class);
+    ;
+    private ImageButton back_msg;
+    private EditText Location;
+    public ArrayAdapter<String> adapter;
+    public ArrayAdapter<String> adapter3;
+
+    private Boolean Modify;//是否修改
+    private String Id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hand_in);
-
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.white));
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5c1e38ff");
-        intent=getIntent();
+        intent = getIntent();
         inti();
 
 
     }
 
     public void inti() {
+        Location = (EditText) findViewById(R.id.Location);
+        back_msg = (ImageButton) findViewById(R.id.back_msg);
+        back_msg.setOnClickListener(this);
         pane = (ImageView) findViewById(R.id.pane);
         photo = (Button) findViewById(R.id.photo);
         photo.setOnClickListener(this);
@@ -112,14 +149,14 @@ public class Repair extends BaseActivity implements View.OnClickListener {
         put.setOnClickListener(this);
         speak = (ImageButton) findViewById(R.id.speak);
         speak.setOnClickListener(this);
-        textView2 = (TextView) findViewById(R.id.three_text);
-        textView3 = (TextView) findViewById(R.id.two_text);
+        textView3 = (TextView) findViewById(R.id.three_text);
+        textView2 = (TextView) findViewById(R.id.two_text);
         textView = (TextView) findViewById(R.id.one_text);
         spinner = (Spinner) findViewById(R.id.select);
 
         spinner3 = (Spinner) findViewById(R.id.select3);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, spinnerItem);
-        final ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, spinnerItem3);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, spinnerItem);
+        adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, spinnerItem3);
 
 
         write.setText(intent.getStringExtra("4"));
@@ -127,15 +164,15 @@ public class Repair extends BaseActivity implements View.OnClickListener {
         usernumber.setText(intent.getStringExtra("1"));
         gettime.setText(intent.getStringExtra("3"));
         Msg.setText(intent.getStringExtra("1"));
-
         spinner3.setAdapter(adapter3);
+
         spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (adapter3.getItem(position).equals("请选择")) {
-                    textView2.setText("请选择项目");
+                    textView3.setText("请选择项目");
                 } else {
-                    textView2.setText(adapter3.getItem(position));
+                    textView3.setText(adapter3.getItem(position));
                 }
             }
 
@@ -152,12 +189,10 @@ public class Repair extends BaseActivity implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (adapter.getItem(position).equals("请选择")) {
                     textView.setText("请选择维修地区");
-                    textView3.setText("请选择维修地区");
+                    textView2.setText("请选择维修地区");
                 } else {
                     textView.setText(adapter.getItem(position));
-                    textView3.setText(adapter.getItem(position));
-//                    spinnerItem2.clear();
-//                    spinnerItem2.add(adapter.getItem(position));
+                    textView2.setText(adapter.getItem(position));
                 }
             }
 
@@ -166,8 +201,6 @@ public class Repair extends BaseActivity implements View.OnClickListener {
 
             }
         });
-//        final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, spinnerItem2);
-//        spinner2.setAdapter(adapter2);
         animation = AnimationUtils.loadAnimation(this, R.anim.spinner);
         spinner.setOnTouchListener(new Spinner.OnTouchListener() {
             @Override
@@ -184,8 +217,32 @@ public class Repair extends BaseActivity implements View.OnClickListener {
 
     private void Receive() {
         Intent intent = getIntent();
-        String msg = intent.getStringExtra("data");
-        Msg.setText(msg);
+        if (intent != null) {
+            Msg.setText(intent.getStringExtra("0"));
+            for (int i = 0; i < spinnerItem.length; i++) {
+
+                if (spinnerItem[i].equals(intent.getStringExtra("1"))) {
+                    spinner.setSelection(i);
+                    break;
+                }
+            }
+            for (int i = 0; i < spinnerItem3.length; i++) {
+                if (spinnerItem3[i].equals(intent.getStringExtra("4"))) {
+                    spinner3.setSelection(i);
+                    break;
+                }
+            }
+            Location.setText(intent.getStringExtra("3"));
+            write.setText(intent.getStringExtra("5"));
+            usernumber.setText(intent.getStringExtra("6"));
+            username.setText(intent.getStringExtra("7"));
+            phone_number.setText(intent.getStringExtra("8"));
+            gettime.setText(intent.getStringExtra("9"));
+            Glide.with(this).load(intent.getStringExtra("10")).into(pane);
+            Modify = intent.getBooleanExtra("Where", false);
+            Id=intent.getStringExtra("id");
+        }
+
 
     }
 
@@ -195,37 +252,32 @@ public class Repair extends BaseActivity implements View.OnClickListener {
             case R.id.speak:
                 Voice voice = new Voice();
                 voice.initSpeech(this);
-            case R.id.put:
-              ArrayList<Message_Bomb> message_bombs=new ArrayList<>();
-                final Message_Bomb message_bomb=new Message_Bomb();
-                message_bomb.setTitle(Msg.getText().toString());
-                message_bomb.setMsg(write.getText().toString());
-                message_bomb.setObj_Name(textView3.getText().toString());
-                message_bomb.setName(username.getText().toString());
-                message_bomb.setNumber(usernumber.getText().toString());
-                message_bomb.setPhone(phone_number.getText().toString());
-                message_bomb.setTime(gettime.getText().toString());
-                message_bomb.setIdd(user.getObjectId());
-                message_bomb.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if(e==null)
-                        {
-                            Message_Bomb message_bomb1=new Message_Bomb(Msg.getText().toString(),textView3.getText().toString(),write.getText().toString(),username.getText().toString(),usernumber.getText().toString(),phone_number.getText().toString(),gettime.getText().toString());
-                            Fragment2.fruitList.add(message_bomb);
-                            Fragment2.fruit_adapter.notifyDataSetChanged();
-                            Toast.makeText(Repair.this,"提交成功",Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
-                });
-
-
                 break;
-
+            case R.id.put:
+                // ArrayList<Message_Bomb> message_bombs = new ArrayList<>();
+                if (Modify == false) {
+                    Hand_in();
+                } else {
+                    Modifys();
+                }
+                Intent intent1 = new Intent(this, VPM.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent1, 0);
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification notification = new NotificationCompat.Builder(this).
+                        setContentTitle("First")
+                        .setContentText("第一条通知")
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent)
+                        .setDefaults(NotificationCompat.DEFAULT_ALL)
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
+                        .build();
+                notificationManager.notify(1, notification);
+                break;
             case R.id.total_Hand:
-                Intent intent = new Intent(Repair.this, Hand_in_Msg.class);
-                startActivity(intent);
+                final Intent intent = new Intent(Repair.this, Hand_in_Msg.class);
+                intent.putExtra("datas", Msg.getText());
+                startActivityForResult(intent, 10);
                 break;
 
             //获取时间
@@ -234,42 +286,194 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.photo:
-                CustomPopupWindow popupWindow = new CustomPopupWindow.Builder()
+                final CustomPopupWindow popupWindow = new CustomPopupWindow.Builder()
                         .setContext(this) //设置 context
                         .setContentView(R.layout.head_image) //设置布局文件
                         .setwidth(LinearLayout.LayoutParams.WRAP_CONTENT) //设置宽度，由于我已经在布局写好，这里就用 wrap_content就好了
                         .setheight(LinearLayout.LayoutParams.WRAP_CONTENT) //设置高度
                         .setFouse(true)  //设置popupwindow 是否可以获取焦点
                         .setOutSideCancel(true) //设置点击外部取消
-                        //  .setBackGroudAlpha(mActivity,0.7f) //是否设置背景色，原理为调节 alpha
-                        .builder() //
+                        .setBackGroudAlpha(Repair.this, 0.7f) //是否设置背景色，原理为调节 apha
+                        .builder()
                         .showAtLocation(R.layout.hand_in, Gravity.BOTTOM, 0, 0); //设置popupwindow居中显示
+                //添加点击事件
                 popupWindow.setOnClickListener(R.id.pop_pic, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent photo = new Intent(Intent.ACTION_PICK, null);
-                        photo.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+//                        Intent photo = new Intent(Intent.ACTION_PICK);
+//                        photo.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        // photo.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        Intent photo = new Intent();
+                        if (Build.VERSION.SDK_INT < 19) {
+                            photo.setAction(Intent.ACTION_GET_CONTENT);
+                            photo.setType("image/*");
+                        } else {
+                            photo = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            photo.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        }
+
+
                         startActivityForResult(photo, 1);
+                        popupWindow.dismiss();
                     }
                 });
                 popupWindow.setOnClickListener(R.id.pop_camera, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            String mTempPhotoPath;
-                            Intent intentToTakePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            mTempPhotoPath = getExternalCacheDir()+ "photo.png";
-                            //封装照片路径
-                        imageUri = FileProvider.getUriForFile(Repair.this,
-                                    "com.example.qjh.r.fileprovider",
-                                    new File(mTempPhotoPath));
-                            //下面这句指定调用相机拍照后的照片存储的路径
-                            intentToTakePhoto.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                            startActivityForResult(intentToTakePhoto, 2);
-                    }
+                        File image = new File(getExternalCacheDir(), "out_image.jpg");
+                        try {
+                            if (image.exists()) {
+                                image.delete();
+                            }
+                            image.createNewFile();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
+                        if (Build.VERSION.SDK_INT >= 24) {
+                            imageUri = FileProvider.getUriForFile(Repair.this, "text", image);
+                        } else {
+                            imageUri = Uri.fromFile(image);
+                        }
+                        Intent intent2 = new Intent("android.media.action.IMAGE_CAPTURE");
+                        intent2.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent2, 2);
+                        popupWindow.dismiss();
+                    }
+                });
+
+
+                popupWindow.setOnClickListener(R.id.pop_cancel, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
                 });
                 break;
+
+            case R.id.back_msg:
+                finish();
+                break;
+
         }
+    }
+
+    private void Modifys() {
+        if (imageUri == null) {
+            final Message_Bomb message_bomb = new Message_Bomb();
+            final ProgressDialog proess=new ProgressDialog(this);
+            proess.setTitle("提示");
+            proess.setMessage("上传中...");
+            proess.setCancelable(false);
+            proess.show();
+           message_bomb.setValue("title",Msg.getText().toString());
+            message_bomb.setValue("Msg",write.getText().toString());
+            message_bomb.setValue("area1",textView.getText().toString());
+            message_bomb.setValue("area2",textView2.getText().toString());
+            message_bomb.setValue("obj_Name",textView3.getText().toString());
+            message_bomb.setValue("Location",Location.getText().toString());
+            message_bomb.setValue("name",username.getText().toString());
+            message_bomb.setValue("number",usernumber.getText().toString());
+            message_bomb.setValue("phone",phone_number.getText().toString());
+            message_bomb.setValue("time",gettime.getText().toString());
+            message_bomb.update(Id,new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        proess.dismiss();
+                        Toast.makeText(Repair.this, "修改成功", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+            });
+        } else {
+            final BmobFile bmobFile = new BmobFile(uriToFile(imageUri, this));
+            final ProgressDialog proess=new ProgressDialog(this);
+            proess.setTitle("提示");
+            proess.setMessage("上传中...");
+            proess.setCancelable(false);
+            proess.show();
+            bmobFile.uploadblock(new UploadFileListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        final Message_Bomb message_bomb = new Message_Bomb();
+                        message_bomb.setValue("picture",bmobFile);
+                        message_bomb.setValue("title",Msg.getText().toString());
+                        message_bomb.setValue("Msg",write.getText().toString());
+                        message_bomb.setValue("area1",textView.getText().toString());
+                        message_bomb.setValue("area2",textView2.getText().toString());
+                        message_bomb.setValue("obj_Name",textView3.getText().toString());
+                        message_bomb.setValue("Location",Location.getText().toString());
+                        message_bomb.setValue("name",username.getText().toString());
+                        message_bomb.setValue("number",usernumber.getText().toString());
+                        message_bomb.setValue("phone",phone_number.getText().toString());
+                        message_bomb.setValue("time",gettime.getText().toString());
+                        message_bomb.update(Id,new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if (e == null) {
+                                    proess.dismiss();
+                                    Toast.makeText(Repair.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+    }
+
+    private void Hand_in() {
+        if (imageUri == null) {
+            Toast.makeText(Repair.this, "未上传图片", Toast.LENGTH_SHORT).show();
+        } else {
+            final BmobFile bmobFile = new BmobFile(uriToFile(imageUri, this));
+            final ProgressDialog proess=new ProgressDialog(this);
+            proess.setTitle("提示");
+            proess.setMessage("上传中...");
+            proess.setCancelable(false);
+            proess.show();
+            bmobFile.uploadblock(new UploadFileListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+
+                        final Message_Bomb message_bomb = new Message_Bomb();
+                        message_bomb.setPicture(bmobFile);
+                        message_bomb.setTitle(Msg.getText().toString());
+                        message_bomb.setMsg(write.getText().toString());
+                        message_bomb.setArea1(textView.getText().toString());
+                        message_bomb.setArea2(textView2.getText().toString());
+                        message_bomb.setObj_Name(textView3.getText().toString());
+                        message_bomb.setLocation(Location.getText().toString());
+                        message_bomb.setName(username.getText().toString());
+                        message_bomb.setNumber(usernumber.getText().toString());
+                        message_bomb.setPhone(phone_number.getText().toString());
+                        message_bomb.setTime(gettime.getText().toString());
+                        message_bomb.setIdd(user.getObjectId());
+                        message_bomb.save(new SaveListener<String>() {
+                            @Override
+                            public void done(String s, BmobException e) {
+                                if (e == null) {
+                                    Message_Bomb message_bomb1 = new Message_Bomb(Msg.getText().toString(), write.getText().toString(), Location.getText().toString(), usernumber.getText().toString(), username.getText().toString(), gettime.getText().toString());
+                                    Fragment2.message_bombs_list.add(message_bomb);
+                                    Fragment2.fruit_adapter.notifyDataSetChanged();
+                                    Toast.makeText(Repair.this, "提交成功", Toast.LENGTH_SHORT).show();
+                                    proess.dismiss();
+                                    finish();
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+
+
     }
 
 
@@ -278,40 +482,26 @@ public class Repair extends BaseActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case 1: //从相册图片后返回的uri
-                    //启动裁剪
+                case 1:
                     try {
                         //该uri是上一个Activity返回的
                         imageUri = data.getData();
-                        startUCrop();
-                        Bitmap bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        pane.setImageBitmap(bit);
+                        Glide.with(this).load(imageUri).into(pane);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case 2:
-                    Toast.makeText(Repair.this,"132",Toast.LENGTH_SHORT).show();
                     try {
-//                        imageUri = data.getData();
-                        Bitmap bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        pane.setImageBitmap(bit);
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        pane.setImageBitmap(bitmap);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-//                case UCrop.REQUEST_CROP: {
-//                    croppedUri = UCrop.getOutput(data);
-//                    try {
-//                        if (croppedUri != null) {
-//                            Bitmap bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(croppedUri));
-//                            pane.setImageBitmap(bit);
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                    break;
-//                }
+                    break;
+                case 10:
+                    Msg.setText(data.getStringExtra("data"));
+                    break;
             }
         }
 
@@ -464,19 +654,14 @@ public class Repair extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private void startUCrop() {
-        //裁剪后保存到文件中
-
-        Uri destionUri = Uri.fromFile(new File(getCacheDir(), "myCroppedImage.jpg"));
-        UCrop uCrop = UCrop.of(imageUri, destionUri);
-        UCrop.Options options = new UCrop.Options();
-        //设置裁剪图片可操作的手势
-        options.setAllowedGestures(UCropActivity.SCALE, UCropActivity.ROTATE, UCropActivity.ALL);
-        options.setMaxBitmapSize(100);
-        options.setShowCropFrame(false);
-        options.setFreeStyleCropEnabled(true);  //是否能调整裁剪框
-        uCrop.withOptions(options);
-        uCrop.start(Repair.this);
+    public static File uriToFile(Uri uri, Context context) {
+        String path = null;
+        if ("file".equals(uri.getScheme())) {
+            return GetFIlePath_From_Uri.GetFilePath_Min_sdkversion(uri, context);
+        } else if ("content".equals(uri.getScheme())) {
+            return new File(GetFIlePath_From_Uri.getFilePathFromURI(context, uri));//新的方式
+        }
+        return null;
     }
 
 

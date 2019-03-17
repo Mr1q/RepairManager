@@ -6,9 +6,10 @@
     <color name="background">#6999db</color>
     <color name="blue">#24282b</color>
     <color name="first">#d9e0e4</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="black">#FF000000</color>
     <color name="light">#e4dfdf</color>
     <color name="Red">#FFEB1F1F</color>
     <color name="Top">#eef6522c</color>
+    <color name="Click_more">#5eef8234</color>
 </resources>

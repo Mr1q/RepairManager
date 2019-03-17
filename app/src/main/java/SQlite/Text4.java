@@ -3,15 +3,25 @@ package SQlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Text4 extends SQLiteOpenHelper{
 
-    public  static final String create="create table Book("+"id integer primary key autoincrement,"+"author text)";
+    public  static final String create="create table Book("
+            +"id integer primary key autoincrement,"
+            +"price real,"
+            +"author text)";
     private Context mcontext;
     public Text4(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         mcontext=context;
+
+
+
     }
 
     @Override

@@ -32,9 +32,10 @@ import android.support.v7.widget.Toolbar;
 import com.example.qjh.r.Main.Repair;
 import com.example.qjh.r.R;
 import com.example.qjh.r.Receiver.VPM;
-import com.example.qjh.r.Text;
+
 
 import Control.BaseActivity;
+import SQlite.Text4;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -57,7 +58,6 @@ public class Login extends BaseActivity implements View.OnClickListener {
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 //        //透明导航栏
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
         Bmob.initialize(this, "dff48d937894d6983e2c968c69468565");
         if (savedInstanceState != null) {
             User_Number.setText(savedInstanceState.getString("User_number"));

@@ -53,40 +53,73 @@
             android:textColorHint="@color/colorAccent"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/password_input"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/account_input"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center"
-            android:hint="@string/pass"
-            android:maxLines="1"
-            android:inputType="textPassword"
-            android:textColorHint="@color/colorAccent"
-            android:textSize="20sp" />
-        <EditText
-            android:id="@+id/password_again"
+            >
+            <EditText
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/account_input"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
+                android:hint="@string/pass"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="20sp" />
+            <ToggleButton
+                android:id="@+id/password_Hint2"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/hint"
+                android:textOff=""
+                android:textOn="" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/account_input"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center"
-            android:hint="请重复输入密码"
-            android:maxLines="1"
-            android:inputType="textPassword"
-            android:textColorHint="@color/colorAccent"
-            android:textSize="20sp" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/password_again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/account_input"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
+                android:hint="请重复输入密码"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="20sp" />
+            <ToggleButton
+                android:id="@+id/password_Hint3"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/hint"
+                android:textOff=""
+                android:textOn="" />
+
+
+        </FrameLayout>
+
     </LinearLayout>
 
 
     <Button
         android:id="@+id/reg"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/sj"
+        android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape"
