@@ -2,8 +2,8 @@ package com.example.qjh.r.UserMessage;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.Menu;
+import androidx.annotation.Nullable;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -12,15 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
+import com.example.qjh.r.Login.User;
 import com.example.qjh.r.Main.Evaluate_obj;
-import com.example.qjh.r.Main.Hand_in_Msg;
 import com.example.qjh.r.R;
 
 import Control.BaseActivity;
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -82,7 +80,7 @@ public class Evaluate extends BaseActivity implements View.OnClickListener {
                 Evaluate_obj evaluate_obj=new Evaluate_obj();
                 evaluate_obj.setScore(score);
                 evaluate_obj.setMsg(Text_msg.getText().toString().trim());
-                evaluate_obj.setId(BmobUser.getCurrentUser().getObjectId());
+                evaluate_obj.setId(BmobUser.getCurrentUser(User.class).getObjectId());
                 evaluate_obj.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {

@@ -2,10 +2,9 @@ package com.example.qjh.r.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,17 +12,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.ToggleButton;
 
 import com.example.qjh.r.R;
 
-import java.security.Key;
-
-import javax.xml.transform.Result;
-
 import Control.BaseActivity;
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -113,7 +107,7 @@ public class Register extends BaseActivity  implements View.OnClickListener{
             case  R.id.reg:
                 if(check())
                 {
-                    final User user = new User();
+                    final BmobUser user = new BmobUser();
                     user.setUsername(user_numebr.getText().toString());
                     user.setPassword(user_password.getText().toString());
                     user.signUp(new SaveListener<User>() {
@@ -123,11 +117,11 @@ public class Register extends BaseActivity  implements View.OnClickListener{
                                 Toast.makeText(Register.this, "注册成功", Toast.LENGTH_SHORT).show();
                                 Intent intent=new Intent(Register.this,Login.class);
                                 intent.putExtra("username",user_numebr.getText().toString().trim());
-                                intent.putExtra("password",user_password.getText().toString().trim());
+                             //   intent.putExtra("password",user_password.getText().toString().trim());
                                 setResult(RESULT_OK,intent);
                                 finish();
                             } else {
-                                Toast.makeText(Register.this, "注册失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Register.this, e.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

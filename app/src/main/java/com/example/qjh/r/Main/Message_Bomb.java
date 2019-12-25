@@ -1,5 +1,6 @@
 package com.example.qjh.r.Main;
 
+import Control.BaseActivity;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 

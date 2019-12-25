@@ -1,27 +1,20 @@
 package com.example.qjh.r.Main;
 
 import android.app.DatePickerDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Person;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.FileProvider;
+import androidx.annotation.Nullable;
+
+import androidx.core.content.FileProvider;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,30 +33,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.qjh.r.Adapter.First_Adapter;
 import com.example.qjh.r.Fragment.Fragment2;
 import com.example.qjh.r.Login.User;
 import com.example.qjh.r.R;
-import com.example.qjh.r.Receiver.VPM;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
-import com.yalantis.ucrop.UCrop;
-import com.yalantis.ucrop.UCropActivity;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -89,7 +71,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
     private Button put;
     private ImageButton speak;
     private TextView textnumber;
-    private EditText write;
+    public static EditText write;
     private Button gettime;//获取时间
     private EditText usernumber;//学号
     private EditText username; //姓名
@@ -240,7 +222,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
             gettime.setText(intent.getStringExtra("9"));
             Glide.with(this).load(intent.getStringExtra("10")).into(pane);
             Modify = intent.getBooleanExtra("Where", false);
-            Id=intent.getStringExtra("id");
+            Id = intent.getStringExtra("id");
         }
 
 
@@ -251,28 +233,38 @@ public class Repair extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.speak:
                 Voice voice = new Voice();
-                voice.initSpeech(this);
+                voice.initSpeech(Repair.this);
                 break;
             case R.id.put:
                 // ArrayList<Message_Bomb> message_bombs = new ArrayList<>();
                 if (Modify == false) {
-                    Hand_in();
+                    if (!(usernumber.getText().toString().isEmpty() || phone_number.getText().toString().isEmpty() || username.getText().toString().isEmpty())) {
+                        Hand_in();
+                    } else {
+                        Toast.makeText(Repair.this, "学号、联系人、联系电话不能为空", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
-                    Modifys();
+                    if (!(usernumber.getText().toString().isEmpty() || phone_number.getText().toString().isEmpty() || username.getText().toString().isEmpty())) {
+                        Modifys();
+                    } else {
+                        Toast.makeText(Repair.this, "学号、联系人、联系电话不能为空", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
-                Intent intent1 = new Intent(this, VPM.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent1, 0);
-                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notification = new NotificationCompat.Builder(this).
-                        setContentTitle("First")
-                        .setContentText("第一条通知")
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setAutoCancel(true)
-                        .setContentIntent(pendingIntent)
-                        .setDefaults(NotificationCompat.DEFAULT_ALL)
-                        .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .build();
-                notificationManager.notify(1, notification);
+//                Intent intent1 = new Intent(this, VPM.class);
+//                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent1, 0);
+//                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//                Notification notification = new NotificationCompat.Builder(this).
+//                        setContentTitle("First")
+//                        .setContentText("第一条通知")
+//                        .setSmallIcon(R.drawable.ic_launcher_background)
+//                        .setAutoCancel(true)
+//                        .setContentIntent(pendingIntent)
+//                        .setDefaults(NotificationCompat.DEFAULT_ALL)
+//                        .setPriority(NotificationCompat.PRIORITY_MAX)
+//                        .build();
+//                notificationManager.notify(1, notification);
                 break;
             case R.id.total_Hand:
                 final Intent intent = new Intent(Repair.this, Hand_in_Msg.class);
@@ -311,8 +303,6 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                             photo = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             photo.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                         }
-
-
                         startActivityForResult(photo, 1);
                         popupWindow.dismiss();
                     }
@@ -320,7 +310,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 popupWindow.setOnClickListener(R.id.pop_camera, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        File image = new File(getExternalCacheDir(), "out_image.jpg");
+                        File image = new File(getExternalCacheDir(), System.currentTimeMillis()+".jpg");
                         try {
                             if (image.exists()) {
                                 image.delete();
@@ -331,10 +321,12 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                         }
 
                         if (Build.VERSION.SDK_INT >= 24) {
-                            imageUri = FileProvider.getUriForFile(Repair.this, "text", image);
+                            imageUri = FileProvider.getUriForFile(Repair.this,"com.example.qjh.r.fileprovider" , image);
+                            Log.d("image_class", "onClick: "+imageUri);
                         } else {
                             imageUri = Uri.fromFile(image);
                         }
+
                         Intent intent2 = new Intent("android.media.action.IMAGE_CAPTURE");
                         intent2.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                         startActivityForResult(intent2, 2);
@@ -361,22 +353,22 @@ public class Repair extends BaseActivity implements View.OnClickListener {
     private void Modifys() {
         if (imageUri == null) {
             final Message_Bomb message_bomb = new Message_Bomb();
-            final ProgressDialog proess=new ProgressDialog(this);
+            final ProgressDialog proess = new ProgressDialog(this);
             proess.setTitle("提示");
             proess.setMessage("上传中...");
             proess.setCancelable(false);
             proess.show();
-           message_bomb.setValue("title",Msg.getText().toString());
-            message_bomb.setValue("Msg",write.getText().toString());
-            message_bomb.setValue("area1",textView.getText().toString());
-            message_bomb.setValue("area2",textView2.getText().toString());
-            message_bomb.setValue("obj_Name",textView3.getText().toString());
-            message_bomb.setValue("Location",Location.getText().toString());
-            message_bomb.setValue("name",username.getText().toString());
-            message_bomb.setValue("number",usernumber.getText().toString());
-            message_bomb.setValue("phone",phone_number.getText().toString());
-            message_bomb.setValue("time",gettime.getText().toString());
-            message_bomb.update(Id,new UpdateListener() {
+            message_bomb.setValue("title", Msg.getText().toString());
+            message_bomb.setValue("Msg", write.getText().toString());
+            message_bomb.setValue("area1", textView.getText().toString());
+            message_bomb.setValue("area2", textView2.getText().toString());
+            message_bomb.setValue("obj_Name", textView3.getText().toString());
+            message_bomb.setValue("Location", Location.getText().toString());
+            message_bomb.setValue("name", username.getText().toString());
+            message_bomb.setValue("number", usernumber.getText().toString());
+            message_bomb.setValue("phone", phone_number.getText().toString());
+            message_bomb.setValue("time", gettime.getText().toString());
+            message_bomb.update(Id, new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
                     if (e == null) {
@@ -388,7 +380,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
             });
         } else {
             final BmobFile bmobFile = new BmobFile(uriToFile(imageUri, this));
-            final ProgressDialog proess=new ProgressDialog(this);
+            final ProgressDialog proess = new ProgressDialog(this);
             proess.setTitle("提示");
             proess.setMessage("上传中...");
             proess.setCancelable(false);
@@ -398,18 +390,18 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 public void done(BmobException e) {
                     if (e == null) {
                         final Message_Bomb message_bomb = new Message_Bomb();
-                        message_bomb.setValue("picture",bmobFile);
-                        message_bomb.setValue("title",Msg.getText().toString());
-                        message_bomb.setValue("Msg",write.getText().toString());
-                        message_bomb.setValue("area1",textView.getText().toString());
-                        message_bomb.setValue("area2",textView2.getText().toString());
-                        message_bomb.setValue("obj_Name",textView3.getText().toString());
-                        message_bomb.setValue("Location",Location.getText().toString());
-                        message_bomb.setValue("name",username.getText().toString());
-                        message_bomb.setValue("number",usernumber.getText().toString());
-                        message_bomb.setValue("phone",phone_number.getText().toString());
-                        message_bomb.setValue("time",gettime.getText().toString());
-                        message_bomb.update(Id,new UpdateListener() {
+                        message_bomb.setValue("picture", bmobFile);
+                        message_bomb.setValue("title", Msg.getText().toString());
+                        message_bomb.setValue("Msg", write.getText().toString());
+                        message_bomb.setValue("area1", textView.getText().toString());
+                        message_bomb.setValue("area2", textView2.getText().toString());
+                        message_bomb.setValue("obj_Name", textView3.getText().toString());
+                        message_bomb.setValue("Location", Location.getText().toString());
+                        message_bomb.setValue("name", username.getText().toString());
+                        message_bomb.setValue("number", usernumber.getText().toString());
+                        message_bomb.setValue("phone", phone_number.getText().toString());
+                        message_bomb.setValue("time", gettime.getText().toString());
+                        message_bomb.update(Id, new UpdateListener() {
                             @Override
                             public void done(BmobException e) {
                                 if (e == null) {
@@ -431,7 +423,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
             Toast.makeText(Repair.this, "未上传图片", Toast.LENGTH_SHORT).show();
         } else {
             final BmobFile bmobFile = new BmobFile(uriToFile(imageUri, this));
-            final ProgressDialog proess=new ProgressDialog(this);
+            final ProgressDialog proess = new ProgressDialog(this);
             proess.setTitle("提示");
             proess.setMessage("上传中...");
             proess.setCancelable(false);
@@ -440,7 +432,6 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void done(BmobException e) {
                     if (e == null) {
-
                         final Message_Bomb message_bomb = new Message_Bomb();
                         message_bomb.setPicture(bmobFile);
                         message_bomb.setTitle(Msg.getText().toString());
@@ -493,8 +484,11 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                     break;
                 case 2:
                     try {
+                    //    imageUri = data.getData();
+                        Glide.with(this).load(imageUri).into(pane);
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        pane.setImageBitmap(bitmap);
+
+//                        pane.setImageBitmap(bitmap);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -552,7 +546,7 @@ public class Repair extends BaseActivity implements View.OnClickListener {
             public void afterTextChanged(Editable s) {
                 editstar = usernumber.getSelectionStart();
                 editend = usernumber.getSelectionEnd();
-                if (temp.length() > 10) {
+                if (temp.length() > 12) {
                     Toast.makeText(Repair.this, "你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
                     s.delete(editstar - 1, editend);
                     int tempSelection = editstar;

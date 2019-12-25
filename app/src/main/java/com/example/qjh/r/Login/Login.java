@@ -1,42 +1,28 @@
 package com.example.qjh.r.Login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.print.PrintAttributes;
-import android.support.annotation.Nullable;
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import androidx.annotation.Nullable;
+
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
-import com.example.qjh.r.Main.Repair;
 import com.example.qjh.r.R;
 import com.example.qjh.r.Receiver.VPM;
 
 
 import Control.BaseActivity;
-import SQlite.Text4;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobConfig;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -59,9 +45,20 @@ public class Login extends BaseActivity implements View.OnClickListener {
 //        //透明导航栏
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         Bmob.initialize(this, "dff48d937894d6983e2c968c69468565");
+        BmobConfig config = new BmobConfig.Builder(this)
+                //设置APPID
+                .setApplicationId("dff48d937894d6983e2c968c69468565")
+                //请求超时时间（单位为秒）：默认15s
+                .setConnectTimeout(30)
+                //文件分片上传时每片的大小（单位字节），默认512*1024
+                .setUploadBlockSize(1024 * 1024)
+                //文件的过期时间(单位为秒)：默认1800s
+                .setFileExpiration(5500)
+                .build();
+        Bmob.initialize(config);
+
         if (savedInstanceState != null) {
             User_Number.setText(savedInstanceState.getString("User_number"));
-
         }
         if (BmobUser.isLogin()) {
             Intent intent = new Intent(Login.this, VPM.class);
@@ -80,7 +77,6 @@ public class Login extends BaseActivity implements View.OnClickListener {
         toolbar=(Toolbar)findViewById(R.id.toolbar_title);
         toolbar.setTitle("登录界面");
         this.setSupportActionBar(toolbar);
-
         password_Hint = (ToggleButton) findViewById(R.id.password_Hint);
         password = (EditText) findViewById(R.id.password);
         User_Number = (EditText) findViewById(R.id.user_Number);
@@ -121,8 +117,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
             case 1:
                 if (resultCode == RESULT_OK) {
                     User_Number.setText(data.getStringExtra("username"));
-                    password.setText(data.getStringExtra("password"));
-
+                  //  password.setText(data.getStringExtra("password"));
                 }
 
 
@@ -155,6 +150,8 @@ public class Login extends BaseActivity implements View.OnClickListener {
                     user.login(new SaveListener<User>() {
                         @Override
                         public void done(User bmobUser, BmobException e) {
+                            Toast.makeText(Login.this, e.toString(), Toast.LENGTH_SHORT).show();
+                            Log.d("User_class", "done: "+e.toString());
                             if (e == null) {
                                 User user = BmobUser.getCurrentUser(User.class);
                                 Toast.makeText(Login.this, "登录成功", Toast.LENGTH_SHORT).show();
@@ -162,7 +159,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
                                 startActivity(intent);
                                 finish();
                             } else {
-                                Toast.makeText(Login.this, "登录失败", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(Login.this, "登录失败", Toast.LENGTH_SHORT).show();
 
                             }
                         }

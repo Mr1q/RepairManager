@@ -1,7 +1,7 @@
 package com.example.qjh.r.Login;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import Control.BaseActivity;
 

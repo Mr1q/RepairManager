@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageButton
+            android:id="@+id/back_msg"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="5dp"
+            android:background="@mipmap/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="报修信息"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/put"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:background="@drawable/click_more"
+            android:text="提交"
+            android:textColor="@color/black" />
+    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
-        /*
-        取消自动弹出键盘
-        */
+        <!--/*-->
+        <!--取消自动弹出键盘-->
+        <!--*/-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,36 +51,7 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp">
-
-                <ImageButton
-                    android:id="@+id/back_msg"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@mipmap/back" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="报修信息"
-                    android:textSize="20dp" />
-
-                <Button
-                    android:id="@+id/put"
-                    android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end"
-                    android:background="@drawable/click_more"
-                    android:text="提交"
-                    android:textColor="@color/black" />
-            </FrameLayout>
-
-
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -124,10 +126,11 @@
 
                         <Spinner
                             android:id="@+id/select"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="end"
-                            android:spinnerMode="dialog" />
+                            android:gravity="center"
+                            android:spinnerMode="dropdown" />
                     </FrameLayout>
 
                     <View
@@ -197,8 +200,8 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="end"
-                            android:layout_marginRight="10dp"
                             android:layout_marginTop="5dp"
+                            android:layout_marginRight="10dp"
                             android:background="@mipmap/locationss" />
 
                     </FrameLayout>
@@ -241,9 +244,9 @@
                     </FrameLayout>
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -266,7 +269,7 @@
                             android:layout_marginTop="1dp"
                             android:text="问题描述"
                             android:textColor="@color/black"
-                            android:textSize="12dp" />
+                            android:textSize="16dp" />
                         />
                     </FrameLayout>
 
@@ -277,14 +280,14 @@
                         <EditText
                             android:id="@+id/write"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
+                            android:layout_height="200dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="1dp"
                             android:background="@color/white"
                             android:gravity="top"
                             android:hint="输入问题"
                             android:textColor="@color/black"
-                            android:textSize="14dp" />
+                            android:textSize="18dp" />
 
                         <ImageButton
                             android:id="@+id/speak"
@@ -299,15 +302,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end|bottom"
-                            android:layout_marginBottom="10dp"
                             android:layout_marginRight="50dp"
+                            android:layout_marginBottom="10dp"
                             android:text="200" />
 
                     </FrameLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -337,13 +340,48 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="end"
-                            android:layout_marginBottom="2dp"
-                            android:layout_marginRight="10dp"
                             android:layout_marginTop="2dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="2dp"
                             android:background="@null"
                             android:hint="输入学号"
                             android:inputType="number"
                             android:textColorHint="@color/light"
+                            android:textSize="17dp" />
+
+
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                        android:padding="2dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="联系电话"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <EditText
+                            android:id="@+id/phone_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="2dp"
+                            android:background="@null"
+                            android:hint="输入电话"
+                            android:inputType="number"
+                            android:textColorHint="@color/Red"
                             android:textSize="17dp" />
 
                     </FrameLayout>
@@ -378,9 +416,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="end"
-                            android:layout_marginBottom="2dp"
-                            android:layout_marginRight="10dp"
                             android:layout_marginTop="2dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="2dp"
                             android:background="@null"
                             android:hint="输入姓名"
                             android:inputType="text"
@@ -394,34 +432,6 @@
                         android:layout_height="1dp"
                         android:background="?android:attr/listDivider"
                         android:padding="2dp" />
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:text="联系电话"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
-
-                        <EditText
-                            android:id="@+id/phone_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="end"
-                            android:layout_marginBottom="2dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="2dp"
-                            android:background="@null"
-                            android:hint="输入电话"
-                            android:inputType="number"
-                            android:textColorHint="@color/Red"
-                            android:textSize="17dp" />
-
-                    </FrameLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -452,9 +462,9 @@
 
                     </FrameLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -492,10 +502,10 @@
                     </FrameLayout>
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
 
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

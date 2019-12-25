@@ -1,16 +1,18 @@
 package com.example.qjh.r.Receiver;
 
-import android.app.ProgressDialog;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+
+
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -19,36 +21,32 @@ import com.example.qjh.r.Adapter.SectionsPagerAdapter;
 import com.example.qjh.r.Fragment.Fragment1;
 import com.example.qjh.r.Fragment.Fragment2;
 import com.example.qjh.r.Fragment.Fragment4;
-import com.example.qjh.r.Login.User;
-import com.example.qjh.r.Main.Message_Bomb;
 import com.example.qjh.r.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Control.BaseActivity;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 
 public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener ,BottomNavigationBar.OnTabSelectedListener{
+//    private BottomNavigationBar bottomNavigationBar;
     private BottomNavigationBar bottomNavigationBar;
     private ViewPager vp;
     private static BadgeItem badgeItem;
     private  List<Fragment> arrayList;
+    private long mExitTime;
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
     }
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewpage);
-
         setVp();
-        Log.d("qjh","成功导入");
 
     }
 
@@ -142,5 +140,23 @@ public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener 
     {
         badgeItem.setText(String.valueOf(num));
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //判断用户是否点击了“返回键”
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //与上次点击返回键时刻作差
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                //大于2000ms则认为是误操作，使用Toast进行提示
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                //并记录下本次点击“返回键”的时刻，以便下次进行判断
+                mExitTime = System.currentTimeMillis();
+            } else {
+                //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
 
+    }
 }

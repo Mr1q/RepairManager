@@ -1,64 +1,48 @@
 package com.example.qjh.r.Adapter;
 
-import android.app.Activity;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
-import com.example.qjh.r.Fragment.Fragment2;
 import com.example.qjh.r.Main.Message_Bomb;
-import com.example.qjh.r.Main.Repair;
-import com.example.qjh.r.MyApplication;
 import com.example.qjh.r.R;
 import com.example.qjh.r.Receiver.VPM;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+
+import java.io.File;
 import java.util.List;
 
-import android.content.Intent;
-import android.media.Image;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 
-import Control.ActivityCollector;
-import Control.BaseActivity;
-import SQlite.Text4;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder> {
 
+    private final Context context;
     private List<Message_Bomb> message_bombs;
     private OnItemClickListener onItemClickListener;
 
-    @NonNull
+
     @Override
-    public First_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public First_Adapter.ViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.first_msg, viewGroup, false);
         final First_Adapter.ViewHolder viewHolder = new First_Adapter.ViewHolder(view);
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +64,9 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
                         Message_Bomb message_bombss=new Message_Bomb();
                         message_bombss.setObjectId(message_bombs.get(position).getSelf());
                         message_bombss.delete(new UpdateListener() {
+
+
+
                             @Override
                             public void done(BmobException e) {
                                 if(e==null)
@@ -102,8 +89,9 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
         return viewHolder;
     }
 
-    public First_Adapter(List<Message_Bomb> message_bombs) {
+    public First_Adapter(List<Message_Bomb> message_bombs, Context context) {
         this.message_bombs = message_bombs;
+        this.context=context;
     }
 
     public void removeItem(int pos) {
@@ -116,20 +104,61 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final First_Adapter.ViewHolder viewHolder, int i) {
-        Message_Bomb msg = message_bombs.get(i);
+    public void onBindViewHolder( final First_Adapter.ViewHolder viewHolder, int i) {
+        final Message_Bomb msg = message_bombs.get(i);
         viewHolder.Title_Front.setText(msg.getTitle());
         viewHolder.Obj_Front.setText(msg.getObj_Name());
         viewHolder.number_Front.setText(msg.getNumber());
         viewHolder.name_Front.setText(msg.getName());
         viewHolder.time_Front.setText(msg.getTime());
         viewHolder.locaton_Front.setText(msg.getLocation());
+
+    //    File file=downloadFile(msg.getPicture());
         Glide.with(viewHolder.view.getContext()).load(msg.getPicture_uri()).into(viewHolder.picture);
+        viewHolder.picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"点击",Toast.LENGTH_SHORT).show();
+                new XPopup.Builder(context)
+                        .asImageViewer(viewHolder.picture, msg.getPicture_uri() , true, -1, -1, 50, false,new ImageLoader())
+                        .show();
+
+            }
+        });
 
 
 
     }
 
+    private File downloadFile(BmobFile file){
+        //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
+        File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+        file.download(saveFile, new DownloadFileListener() {
+            @Override
+            public void onStart() {
+              //  Toast.makeText(getContext(), "开始下载", Toast.LENGTH_SHORT).show();
+                Log.i("bmob","开始下载：");
+            }
+
+            @Override
+            public void done(String savePath,BmobException e) {
+                if(e==null){
+                    Log.i("bmob","开始下载："+savePath);
+                  //  Toast.makeText(getContext(),"下载成功,保存路径:"+savePath ,Toast.LENGTH_SHORT).show();
+                }else{
+                    Log.i("bmob","开始下载："+e.getErrorCode()+e.getMessage());
+                  //  Toast.makeText(getContext(),"下载失败："+e.getErrorCode()+","+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onProgress(Integer value, long newworkSpeed) {
+                Log.i("bmob","下载进度："+value+","+newworkSpeed);
+            }
+
+        });
+        return  saveFile;
+    }
     public void addData(int position) {
 
     }
@@ -153,7 +182,7 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
         ImageView picture; //图片
         View view;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder( View itemView) {
             super(itemView);
             Title_Front = (TextView) itemView.findViewById(R.id.title_front);
             Obj_Front = (TextView) itemView.findViewById(R.id.obj_front);
@@ -168,6 +197,25 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public static class ImageLoader implements XPopupImageLoader {
+        @Override
+        public void loadImage(int position,  Object url,  ImageView imageView) {
+            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
+            Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).
+                    override(Target.SIZE_ORIGINAL)).into(imageView);
+        }
+
+        @Override
+        public File getImageFile( Context context,  Object uri) {
+            try {
+                return Glide.with(context).downloadOnly().load(uri).submit().get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 

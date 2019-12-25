@@ -12,10 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="跳  过"
-        android:layout_marginTop="10dp"
+        android:layout_margin="20dp"
         android:layout_gravity="end"
         android:background="@drawable/pass_ani"
-        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:textSize="17dp"
         android:id="@+id/pass_Button"/>
 
 

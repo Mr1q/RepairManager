@@ -1,20 +1,17 @@
 package com.example.qjh.r;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.qjh.r.Login.Login;
 
 import SQlite.Text4;
+import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity {
     View view;
@@ -27,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         view = View.inflate(this, R.layout.activity_main, null);
         setContentView(view);
+      //  Bmob.initialize(this, "dff48d937894d6983e2c968c69468565");
         alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.anmi);
         view.startAnimation(alphaAnimation);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -59,4 +57,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 }

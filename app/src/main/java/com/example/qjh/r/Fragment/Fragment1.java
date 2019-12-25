@@ -7,10 +7,11 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,27 +19,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.Toast;
 
 import com.example.qjh.r.Loc;
 import com.example.qjh.r.Main.Repair;
-import com.example.qjh.r.MyApplication;
 import com.example.qjh.r.R;
 import com.example.qjh.r.UserMessage.Evaluate;
 
 import Control.ActivityCollector;
-import Control.BaseActivity;
 
 public class Fragment1 extends Fragment implements View.OnClickListener {
     private ScrollView scrollView;
-    private FrameLayout location; //定位按钮
+    private RelativeLayout location; //定位按钮
     private View view;
-    private FrameLayout frameLayout;
-    private FrameLayout evaluate;//评价
+    private RelativeLayout frameLayout;
+    private RelativeLayout evaluate;//评价
     private IntentFilter intentFilter;
     private NetChangeBroder netChangeBroder;
 
@@ -47,9 +45,9 @@ public class Fragment1 extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.message, container, false);
         scrollView = (ScrollView) view.findViewById(R.id.scrollView);
-        evaluate = (FrameLayout) view.findViewById(R.id.evaluate);
+        evaluate = (RelativeLayout) view.findViewById(R.id.evaluate);
         evaluate.setOnClickListener(this);
-        location = (FrameLayout) view.findViewById(R.id.location);
+        location = (RelativeLayout) view.findViewById(R.id.location);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +60,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener {
         toolbar.setTitle("维修导航");
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        frameLayout = (FrameLayout) view.findViewById(R.id.repair);
+        frameLayout = (RelativeLayout) view.findViewById(R.id.repair);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +121,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener {
             ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);  //系统服务类
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isAvailable()) {
-                Toast.makeText(getContext(), "网络启动", Toast.LENGTH_LONG).show();
+               // Toast.makeText(getContext(), "网络启动", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getContext(), "未检测到网络", Toast.LENGTH_LONG).show();
             }

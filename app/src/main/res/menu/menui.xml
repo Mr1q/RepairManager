@@ -5,6 +5,6 @@
     android:id="@+id/back"
     android:icon="@mipmap/ov"
     android:title="退出"
-    app:showAsAction="always"/>
+    app:showAsAction="never"/>
 
 </menu>

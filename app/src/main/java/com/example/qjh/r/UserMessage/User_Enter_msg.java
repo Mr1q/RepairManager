@@ -10,14 +10,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -29,7 +30,6 @@ import com.example.qjh.r.Login.Login;
 import com.example.qjh.r.Login.User;
 import com.example.qjh.r.Main.CustomPopupWindow;
 import com.example.qjh.r.Main.GetFIlePath_From_Uri;
-import com.example.qjh.r.Main.Repair;
 import com.example.qjh.r.R;
 
 import java.io.File;
@@ -59,7 +59,7 @@ public class User_Enter_msg extends BaseActivity implements View.OnClickListener
     private RadioButton male;
     private RadioButton female;
     private ImageView Return_Msg;
-    private  Uri imageUri;
+    private Uri imageUri;
     private CircleImageView message_image;
     private User user = BmobUser.getCurrentUser(User.class);
 
@@ -73,7 +73,7 @@ public class User_Enter_msg extends BaseActivity implements View.OnClickListener
     }
 
     public void init() {
-        message_image=(CircleImageView)findViewById(R.id.message_image);
+        message_image = (CircleImageView) findViewById(R.id.message_image);
         message_image.setOnClickListener(this);
         message_image.setEnabled(false);
         Return_Msg = (ImageView) findViewById(R.id.Return_Msg);
@@ -257,51 +257,76 @@ public class User_Enter_msg extends BaseActivity implements View.OnClickListener
                 break;
 
 
-
             default:
         }
     }
 
     private void Save() {
-        final BmobFile bmobFile=new BmobFile (uriToFile(imageUri,this));
-        final ProgressDialog proess=new ProgressDialog(this);
-        proess.setTitle("提示");
-        proess.setMessage("上传中...");
-        proess.setCancelable(false);
-        proess.show();
-        bmobFile.uploadblock(new UploadFileListener() {
-            @Override
-            public void done(BmobException e) {
-                if(e==null)
-                {
-                    user.setImage(bmobFile);
-                    user.setName(username2.getText().toString());
-                    user.setAddress(address.getText().toString());
-                    user.setRiqi(riqi.getText().toString());
-                    user.setNumber(mail_1.getText().toString());
-                    if (radioGroup.getCheckedRadioButtonId() == R.id.male) {
-                        user.setSex("男");
-                        female.setVisibility(View.INVISIBLE);
-                    } else if (radioGroup.getCheckedRadioButtonId() == R.id.femle) {
-                        user.setSex("女");
-                        male.setVisibility(View.INVISIBLE);
-                    }
-                    user.update(new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            if (e == null) {
-                                Toast.makeText(User_Enter_msg.this, "保存成功", Toast.LENGTH_SHORT).show();
-                                proess.dismiss();
-                            }
+        if (imageUri != null) {
+            final BmobFile bmobFile = new BmobFile(uriToFile(imageUri, this));
+            final ProgressDialog proess = new ProgressDialog(this);
+            proess.setTitle("提示");
+            proess.setMessage("上传中...");
+            proess.setCancelable(false);
+            proess.show();
+            bmobFile.uploadblock(new UploadFileListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        user.setImage(bmobFile);
+                        user.setName(username2.getText().toString());
+                        user.setAddress(address.getText().toString());
+                        user.setRiqi(riqi.getText().toString());
+                        user.setNumber(mail_1.getText().toString());
+                        if (radioGroup.getCheckedRadioButtonId() == R.id.male) {
+                            user.setSex("男");
+                            female.setVisibility(View.INVISIBLE);
+                        } else if (radioGroup.getCheckedRadioButtonId() == R.id.femle) {
+                            user.setSex("女");
+                            male.setVisibility(View.INVISIBLE);
                         }
-                    });
+                        user.update(new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if (e == null) {
+                                    Toast.makeText(User_Enter_msg.this, "保存成功", Toast.LENGTH_SHORT).show();
+                                    proess.dismiss();
+                                }
+                            }
+                        });
+                    }
                 }
+            });
+        } else {
+            final ProgressDialog proess = new ProgressDialog(this);
+            proess.setTitle("提示");
+            proess.setMessage("上传中...");
+            proess.setCancelable(false);
+            proess.show();
+            user.setName(username2.getText().toString());
+            user.setAddress(address.getText().toString());
+            user.setRiqi(riqi.getText().toString());
+            user.setNumber(mail_1.getText().toString());
+            if (radioGroup.getCheckedRadioButtonId() == R.id.male) {
+                user.setSex("男");
+                female.setVisibility(View.INVISIBLE);
+            } else if (radioGroup.getCheckedRadioButtonId() == R.id.femle) {
+                user.setSex("女");
+                male.setVisibility(View.INVISIBLE);
             }
-        });
+            user.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        Toast.makeText(User_Enter_msg.this, "保存成功", Toast.LENGTH_SHORT).show();
+                        proess.dismiss();
+                    }
+                }
+            });
+        }
 
+}
 
-
-    }
     public static File uriToFile(Uri uri, Context context) {
         String path = null;
         if ("file".equals(uri.getScheme())) {
@@ -310,6 +335,94 @@ public class User_Enter_msg extends BaseActivity implements View.OnClickListener
             return new File(GetFIlePath_From_Uri.getFilePathFromURI(context, uri));//新的方式
         }
         return null;
+    }
+    public void check()
+    {
+        username2.addTextChangedListener(new TextWatcher() {
+            private int editstar;
+            private int editend;
+            private CharSequence temp;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                temp = s;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editstar = username2.getSelectionStart();
+                editend = username2.getSelectionEnd();
+                if (temp.length() > 7) {
+                    Toast.makeText(User_Enter_msg.this, "你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
+                    s.delete(editstar - 1, editend);
+                    int tempSelection = editstar;
+                    username2.setText(s);
+                    username2.setSelection(tempSelection);
+                }
+            }
+        });
+        mail_1.addTextChangedListener(new TextWatcher() {
+            private int editstar;
+            private int editend;
+            private CharSequence temp;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                temp=s;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editstar = mail_1.getSelectionStart();
+                editend = mail_1.getSelectionEnd();
+                if (temp.length() > 11) {
+                    Toast.makeText(User_Enter_msg.this, "你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
+                    s.delete(editstar - 1, editend);
+                    int tempSelection = editstar;
+                    mail_1.setText(s);
+                    mail_1.setSelection(tempSelection);
+                }
+            }
+        });
+        address.addTextChangedListener(new TextWatcher() {
+            private int editstar;
+            private int editend;
+            private CharSequence temp;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                temp=s;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editstar = address.getSelectionStart();
+                editend = address.getSelectionEnd();
+                if (temp.length() > 20) {
+                    Toast.makeText(User_Enter_msg.this, "你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
+                    s.delete(editstar - 1, editend);
+                    int tempSelection = editstar;
+                    address.setText(s);
+                    address.setSelection(tempSelection);
+                }
+            }
+        });
+
+
+
+
     }
 
 }

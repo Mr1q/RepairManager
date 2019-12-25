@@ -13,6 +13,7 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import java.util.ArrayList;
 
 public class Voice {
+    public static  String  result;
     public void initSpeech(final Context context) {
         //1.创建RecognizerDialog对象
         RecognizerDialog mDialog = new RecognizerDialog(context, null);
@@ -25,7 +26,9 @@ public class Voice {
             public void onResult(RecognizerResult recognizerResult, boolean isLast) {
                 if (!isLast) {
                     //解析语音
-                    String result = parseVoice(recognizerResult.getResultString());
+                     result = parseVoice(recognizerResult.getResultString());
+                     Repair.write.append(result);
+
                 }
             }
 
@@ -36,7 +39,6 @@ public class Voice {
         });
         //4.显示dialog，接收语音输入
         mDialog.show();
-
     }
 
     /**
