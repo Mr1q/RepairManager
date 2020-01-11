@@ -236,7 +236,7 @@ public class User_Enter_msg extends BaseActivity implements View.OnClickListener
                             e.printStackTrace();
                         }
                         if (Build.VERSION.SDK_INT >= 24) {
-                            imageUri = FileProvider.getUriForFile(User_Enter_msg.this, "text", image);
+                            imageUri = FileProvider.getUriForFile(User_Enter_msg.this, "com.example.qjh.r.fileprovider", image);
                         } else {
                             imageUri = Uri.fromFile(image);
                         }

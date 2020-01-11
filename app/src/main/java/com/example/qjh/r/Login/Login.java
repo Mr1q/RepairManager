@@ -137,6 +137,9 @@ public class Login extends BaseActivity implements View.OnClickListener {
 //                progressDialog.show();
                 if (BmobUser.isLogin()) {
                     Intent intent = new Intent(Login.this, VPM.class);
+//                    User user=BmobUser.getCurrentUser(User.class);
+
+
                     startActivity(intent);
                     /*
                 添加代码

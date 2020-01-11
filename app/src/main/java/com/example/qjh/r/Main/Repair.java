@@ -10,6 +10,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import androidx.annotation.Nullable;
 
@@ -38,6 +41,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.baidu.aip.imageclassify.AipImageClassify;
 import com.bumptech.glide.Glide;
 import com.example.qjh.r.Fragment.Fragment2;
 import com.example.qjh.r.Login.User;
@@ -45,9 +49,13 @@ import com.example.qjh.r.R;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import Control.BaseActivity;
@@ -93,6 +101,15 @@ public class Repair extends BaseActivity implements View.OnClickListener {
 
     private Boolean Modify;//是否修改
     private String Id;
+    private Handler handler=new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what)
+            {
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -486,6 +503,16 @@ public class Repair extends BaseActivity implements View.OnClickListener {
                     try {
                     //    imageUri = data.getData();
                         Glide.with(this).load(imageUri).into(pane);
+                        final File file=uriToFile(imageUri,this);
+                        Log.d("onActivityResult_class",
+                                "onActivityResult: /"+file.getAbsolutePath());
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Text(file.getPath());
+                            }
+                        }).start();
+
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
 
 //                        pane.setImageBitmap(bitmap);
@@ -524,6 +551,36 @@ public class Repair extends BaseActivity implements View.OnClickListener {
 
     }
 
+    //设置APPID/AK/SK
+    public static final String APP_ID = "17897100";
+    public static final String API_KEY = "GtXSVM1L5w3pHfbWhXcaK8NL";
+    public static final String SECRET_KEY = "1ODdlpq6w5UcQdxSHkFYdz85GuTPZ4y1";
+
+    private void Text(String path) {
+        // 初始化一个AipImageClassify
+        AipImageClassify client = new AipImageClassify(APP_ID, API_KEY, SECRET_KEY);
+
+        // 可选：设置网络连接参数
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+
+        // 可选：设置代理服务器地址, http和socket二选一，或者均不设置
+        ///  client.setHttpProxy("proxy_host", proxy_port);  // 设置http代理
+        // client.setSocketProxy("proxy_host", proxy_port);  // 设置socket代理
+
+        // 调用接口
+        //String path = "test.jpg";
+        JSONObject res = client.advancedGeneral(path, new HashMap<String, String>());
+        try {
+            System.out.println(res.toString());
+
+            System.out.println(res.toString(2));
+            Log.d("image_text", "Text: "+res.toString(2));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void change() {
         usernumber.addTextChangedListener(new TextWatcher() {

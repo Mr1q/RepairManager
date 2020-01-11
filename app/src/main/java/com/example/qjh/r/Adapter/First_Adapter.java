@@ -108,8 +108,8 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
         final Message_Bomb msg = message_bombs.get(i);
         viewHolder.Title_Front.setText(msg.getTitle());
         viewHolder.Obj_Front.setText(msg.getObj_Name());
-        viewHolder.number_Front.setText(msg.getNumber());
-        viewHolder.name_Front.setText(msg.getName());
+//        viewHolder.number_Front.setText(msg.getNumber());
+//        viewHolder.name_Front.setText(msg.getName());
         viewHolder.time_Front.setText(msg.getTime());
         viewHolder.locaton_Front.setText(msg.getLocation());
 
@@ -175,8 +175,8 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView Title_Front; //标题
         TextView Obj_Front;  //项目名称
-        TextView number_Front; //学号
-        TextView name_Front; //姓名
+//        TextView number_Front; //学号
+//        TextView name_Front; //姓名
         TextView time_Front; //预约时间
         TextView locaton_Front; //位置
         ImageView picture; //图片
@@ -186,8 +186,8 @@ public class First_Adapter extends RecyclerView.Adapter<First_Adapter.ViewHolder
             super(itemView);
             Title_Front = (TextView) itemView.findViewById(R.id.title_front);
             Obj_Front = (TextView) itemView.findViewById(R.id.obj_front);
-            number_Front = (TextView) itemView.findViewById(R.id.number_front);
-            name_Front = (TextView) itemView.findViewById(R.id.name_front);
+//            number_Front = (TextView) itemView.findViewById(R.id.number_front);
+//            name_Front = (TextView) itemView.findViewById(R.id.name_front);
             time_Front = (TextView) itemView.findViewById(R.id.time_front);
             locaton_Front = (TextView) itemView.findViewById(R.id.Location_front);
             picture=(ImageView)itemView.findViewById(R.id.image_front);
