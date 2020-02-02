@@ -6,12 +6,10 @@
     <!--连接网络权限，用于执行云端语音能力 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
-    <uses-permission android:name="Manifest.permission.RECORD_AUDIO" />
+    <!--    <uses-permission android:name="Manifest.permission.RECORD_AUDIO" />-->
     <!--获取当前wifi状态 -->
     <!--允许程序改变网络连接状态 -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <!--读取手机信息权限 -->
-    <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!--读取联系人权限，上传联系人需要用到此权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -22,23 +20,20 @@
     <!--手机定位信息，用来为语义等功能提供定位，提供更精准的服务--> <!--定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true"
-        />
+        android:required="true" />
 
 
-
-
-    <uses-permission android:name="com.miui.whetstone.permission.ACCESS_PROVIDER"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.miui.whetstone.permission.ACCESS_PROVIDER" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
     <uses-permission
@@ -49,22 +44,19 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/front"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:icon="@mipmap/common_logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:appComponentFactory"
-        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
-
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:appComponentFactory">
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
-            android:authorities="com.example.qjh.r.BmobContentProvider">
-
-        </provider>
+            android:authorities="com.example.qjh.r.BmobContentProvider"></provider>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -90,15 +82,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login.Login"
+            android:name=".Activity.LoginActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|uiMode"
             android:theme="@style/myStyle">
-
-
         </activity>
         <activity
-            android:name=".Login.Register"
-            android:theme="@style/myStyle"/>
+            android:name=".Activity.RegisterActivity"
+            android:theme="@style/myStyle" />
         <!--注册界面-->
 
         <service
@@ -123,13 +113,14 @@
         </activity>
         <activity android:name=".Loc"></activity>
         <activity
-            android:name=".Main.Repair"
+            android:name=".Activity.RepairActivity"
             android:theme="@style/myStyle2"></activity>
-        <activity android:name=".Main.Hand_in_Msg"></activity>
+        <activity android:name=".Activity.MessageActivity"></activity>
         <activity
-            android:name=".UserMessage.Evaluate"
+            android:name=".Activity.EvaluateActivity"
             android:theme="@style/myStyle2" />
-        <activity android:name=".UserMessage.User_Enter_msg" />
+        <activity android:name=".Activity.UserMessageActivity" />
+        <activity android:name=".Activity.SpotActivity"/>
     </application>
 </manifest>
 

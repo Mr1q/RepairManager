@@ -27,13 +27,13 @@
 //import com.ashokvarma.bottomnavigation.BadgeItem;
 //import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 //import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-//import com.example.qjh.r.Login.Login;
+//import com.example.qjh.r.Activity.Login;
 //
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//import Control.BaseActivity;
-//import SQlite.Text4;
+//import com.example.qjh.r.Control.BaseActivity;
+//import com.example.qjh.r.SQlite.Text4;
 //import cn.bmob.v3.BmobUser;
 //
 //public class Text extends BaseActivity implements View.OnClickListener,BottomNavigationBar.OnTabSelectedListener{

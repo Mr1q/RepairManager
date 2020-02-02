@@ -3,13 +3,10 @@ package com.example.qjh.r.Receiver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-
-
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -18,15 +15,14 @@ import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.qjh.r.Adapter.SectionsPagerAdapter;
-import com.example.qjh.r.Fragment.Fragment1;
-import com.example.qjh.r.Fragment.Fragment2;
-import com.example.qjh.r.Fragment.Fragment4;
+import com.example.qjh.r.Control.BaseActivity;
+import com.example.qjh.r.Fragment.TotalFragment;
+import com.example.qjh.r.Fragment.HomeFragment;
+import com.example.qjh.r.Fragment.UserFragment;
 import com.example.qjh.r.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import Control.BaseActivity;
 
 public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener ,BottomNavigationBar.OnTabSelectedListener{
 //    private BottomNavigationBar bottomNavigationBar;
@@ -65,9 +61,9 @@ public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener 
                 .setFirstSelectedPosition(0)
                 .initialise(); //所有的设置需在调用该方法前完成
         arrayList=new ArrayList<Fragment>();
-        arrayList.add(new Fragment2());
-        arrayList.add(new Fragment1());
-        arrayList.add(new Fragment4());
+        arrayList.add(new HomeFragment());
+        arrayList.add(new TotalFragment());
+        arrayList.add(new UserFragment());
         vp = (ViewPager) findViewById(R.id.vp);
         vp.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(),arrayList));
         vp.addOnPageChangeListener(this);
@@ -108,7 +104,7 @@ public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener 
         {
 
             badgeItem.show();
-            badgeItem.setText(String.valueOf(Fragment2.getnumber()));
+            badgeItem.setText(String.valueOf(HomeFragment.getnumber()));
         }
 
     }

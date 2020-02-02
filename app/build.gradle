@@ -1,7 +1,10 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.mob.sdk'
 android {
     compileSdkVersion 28
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
     defaultConfig {
         applicationId "com.example.qjh.r"
         minSdkVersion 21
@@ -18,8 +21,13 @@ android {
     }
     useLibrary 'org.apache.http.legacy'
 
-}
 
+}
+MobSDK {
+    appKey "2de0fa99dbd60"
+    appSecret "1ea88cee9d1d850b2e22f0df0200f839"
+    SMSSDK {}
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
@@ -51,7 +59,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
 
 
-    implementation 'com.android.support:percent:28.0.1'
     implementation 'com.lxj:xpopup:1.8.10'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.1'
+     //    加载GIF插件
+    implementation 'com.android.support:design:28.0.0'
 
 }

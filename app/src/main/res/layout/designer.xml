@@ -1,47 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_design"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar_design"/>
-
-
+        android:layout_height="wrap_content" />
 
 
     <RatingBar
         android:id="@+id/stars"
+        android:layout_margin="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numStars="5"
         android:layout_gravity="center"
-        android:rating="3.5"/>
+        android:numStars="5"
+        android:rating="1" />
 
     <EditText
         android:id="@+id/Text_msg"
-        android:background="@drawable/bg_selector"
-        android:gravity="top"
-        android:maxLines="10"
-        android:maxLength="100"
-        android:layout_width="291dp"
+        android:layout_width="match_parent"
         android:layout_height="157dp"
         android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_selector"
+        android:gravity="top"
         android:hint="输入评价"
-         />
+        android:maxLength="100"
+        android:maxLines="10" />
 
     <Button
-        android:layout_marginTop="10dp"
         android:id="@+id/Hand_in_value"
-        android:layout_width="120dp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_height="55dp"
-        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:background="@drawable/click_whhite"
         android:text="提交"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="372dp" />
+        android:textSize="18dp"
+ />
 </LinearLayout>

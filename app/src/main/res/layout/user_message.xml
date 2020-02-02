@@ -4,16 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:background="@color/white"
+        android:layout_height="45dp">
+
         <ImageView
             android:id="@+id/Return_Msg"
             android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/click_more"
             android:src="@mipmap/back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,11 +25,12 @@
             android:text="个 人 信 息"
             android:textColor="#060606"
             android:textSize="20dp" />
+
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            >
+            android:layout_gravity="end">
+
             <Button
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
@@ -39,7 +43,7 @@
 
             <Button
                 android:id="@+id/modify"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@null"
@@ -56,10 +60,12 @@
         android:layout_margin="10dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:orientation="horizontal">
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/message_image"
                 android:layout_width="80dp"
@@ -84,51 +90,45 @@
             android:background="@null"
             android:orientation="vertical">
             <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="?android:attr/listDivider"-->
-                <!--android:padding="2dp" />-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="?android:attr/listDivider"-->
+            <!--android:padding="2dp" />-->
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:padding="2dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="50dp"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@mipmap/z" />
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:id="@+id/username1"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:text="用户名"
-                    android:textColor="@android:color/darker_gray"
-                    android:textColorHint="@android:color/black"
-                    android:textSize="14sp"
-
-                    />
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
 
                 <EditText
+                    android:hint="请输入用户名"
+                    android:textSize="16dp"
                     android:id="@+id/username2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center|right"
-                    android:maxLines="1"
-                    android:enabled="false"/>
+                    android:maxLines="1" />
 
             </LinearLayout>
 
@@ -140,36 +140,31 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="50dp"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@mipmap/z1" />
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:id="@+id/Mail1"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:text="学号"
-                    android:textColor="@android:color/darker_gray"
-                    android:textColorHint="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
 
                 <EditText
+                    android:hint="请输入学号"
+                    android:textSize="16dp"
                     android:id="@+id/mail_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:gravity="center|right"
                     android:enabled="false"
+                    android:gravity="center|right"
                     android:inputType="number"
                     android:maxLines="1" />
 
@@ -181,35 +176,31 @@
                 android:background="?android:attr/listDivider"
                 android:padding="2dp" />
 
-            <TableLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TableRow>
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="2dp"
-                        android:src="@mipmap/z2" />
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
                         android:layout_marginTop="4dp"
+                        android:layout_marginRight="5dp"
                         android:text="性别"
-                        android:textSize="14sp" />
+                        android:layout_centerVertical="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
 
                     <RadioGroup
                         android:id="@+id/rg"
-                        android:layout_gravity="center"
-
-                        android:orientation="horizontal">
-
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                       >
                         <RadioButton
                             android:id="@+id/male"
                             android:layout_width="wrap_content"
@@ -217,6 +208,7 @@
                             android:checked="true"
                             android:enabled="false"
                             android:text="男" />
+
                         <RadioButton
                             android:id="@+id/femle"
                             android:layout_width="wrap_content"
@@ -226,8 +218,8 @@
                             android:text="女" />
                     </RadioGroup>
 
-                </TableRow>
-            </TableLayout>
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -237,104 +229,87 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/z3" />
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:id="@+id/birthday"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:background="@null"
-                    android:layout_marginLeft="50dp"
                     android:gravity="center_vertical"
                     android:text="生日"
-                    android:textColor="@android:color/darker_gray"
-                    android:textColorHint="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
 
-                <Button
-                    android:id="@+id/riqi"
+                <TextView
+                    android:id="@+id/tv_birthday"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="end"
-                    android:background="@null"
+                    android:gravity="center"
+                    android:textSize="15dp"
                     android:enabled="false"
-                    android:text="日期" />
+                    android:drawableRight="@mipmap/common_right"
+                    android:hint="请选择" />
 
             </FrameLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:padding="2dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:src="@mipmap/z5" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:text="地址"
-                android:textColor="@android:color/darker_gray"
-                android:textColorHint="@android:color/black"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/address"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:background="@null"
-                android:gravity="center|right"
-                android:inputType="text"
-                android:maxLines="1"
-                android:enabled="false"/>
-        </LinearLayout>
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:padding="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="地址"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:hint="请输入地址"
+                    android:textSize="16dp"
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:gravity="center|right"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </LinearLayout>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"
-        android:id="@+id/over">
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
-            android:background="@null"
-            android:src="@mipmap/over" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignRight="@+id/over"
-            android:layout_gravity="center_horizontal"
-            android:text="用户退出"
-            android:gravity="center_vertical"/>
 
-    </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_over"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            android:background="@drawable/common_item_gridents"
+            android:text="退 出 登 录" />
+
+
 
 </LinearLayout>
 

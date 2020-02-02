@@ -14,6 +14,7 @@
             android:id="@+id/back_2"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:background="@mipmap/back" />
 
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="报修信息"
-            android:textSize="20dp" />
+            android:textSize="23dp" />
 
     </FrameLayout>
 
@@ -37,14 +38,23 @@
         android:layout_height="100dp"
         android:background="@null"
         android:gravity="top"
+        android:layout_margin="10dp"
+        android:textSize="18dp"
         android:hint="输入内容"
         android:inputType="text" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/light"/>
 
     <Button
         android:id="@+id/sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:textSize="16dp"
+        android:textColor="@color/white"
         android:background="@drawable/shape"
         android:text="确定" />
 

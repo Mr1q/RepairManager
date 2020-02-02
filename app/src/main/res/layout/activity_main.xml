@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/reg"
-    tools:context=".MainActivity"
-    tools:layout_editor_absoluteY="25dp">
+    android:layout_height="match_parent">
+
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif_iamge_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/common_begin" />
 
     <Button
+        android:id="@+id/pass_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="跳  过"
+        android:layout_gravity="end|bottom"
         android:layout_margin="20dp"
-        android:layout_gravity="end"
         android:background="@drawable/pass_ani"
-        android:textColor="@color/white"
-        android:textSize="17dp"
-        android:id="@+id/pass_Button"/>
+        android:text="跳  过"
+        android:textColor="@color/black"
+        android:textSize="17dp" />
 
+    <!--    <TextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="200dp"-->
+    <!--        android:text="欢 迎 使 用"-->
+    <!--        android:textSize="30sp"-->
+    <!--        android:textColor="#fff"-->
+    <!--        android:gravity="center"-->
+    <!--        android:layout_gravity="center"/>-->
 
 </FrameLayout>
