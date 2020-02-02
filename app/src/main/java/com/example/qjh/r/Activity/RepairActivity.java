@@ -197,7 +197,7 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
 
         change(); //文字变化监听
         //接受活动传回来的数据
-        if(intent.getStringExtra(HomeFragment.ISTRUE).equals("-1"))
+        if(intent.getStringExtra(HomeFragment.ISTRUE)!=null&&intent.getStringExtra(HomeFragment.ISTRUE).equals("-1"))
         {
             Receive();
         }

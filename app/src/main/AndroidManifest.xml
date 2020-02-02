@@ -74,7 +74,7 @@
             android:value="w1mVQL0on18f0RdIdNGTpKER9g3IkIUP" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:theme="@style/myStyle3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

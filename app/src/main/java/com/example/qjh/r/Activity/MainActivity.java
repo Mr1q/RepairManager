@@ -1,4 +1,4 @@
-package com.example.qjh.r;
+package com.example.qjh.r.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.qjh.r.Activity.LoginActivity;
+import com.example.qjh.r.R;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
