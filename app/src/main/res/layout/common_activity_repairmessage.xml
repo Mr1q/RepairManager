@@ -28,12 +28,17 @@
         <Button
             android:id="@+id/put"
             android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="@drawable/click_more"
             android:text="提交"
             android:textColor="@color/black" />
     </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -70,7 +75,8 @@
                         android:layout_height="40dp"
                         android:background="@drawable/click_more"
                         android:clickable="true"
-                        android:focusable="true">
+                        android:focusable="true"
+                        android:padding="3dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -86,7 +92,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:duplicateParentState="false" />
+                            android:duplicateParentState="false"
+                            android:hint="输入报修标题"
+                            android:textSize="17dp" />
 
                         <ImageView
                             android:layout_width="25dp"
@@ -100,18 +108,12 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/light" />
-
-
-                    <View
-                        android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/light" />
-
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="40dp"
+                        android:padding="3dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -123,15 +125,18 @@
 
                         <EditText
                             android:id="@+id/Location"
-                            android:layout_width="200dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:maxLines="1"
                             android:hint="输入房间号或地点"
                             android:textColorHint="@color/light"
-                            android:textSize="13dp" />
+                            android:textSize="17dp" />
 
                         <ImageButton
-                            android:id="@+id/Locations"
+                            android:id="@+id/igb_location"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="end"
@@ -149,21 +154,23 @@
                     <FrameLayout
                         android:id="@+id/total_Hand42"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="40dp"
+                        android:padding="3dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_margin="5dp"
                             android:text="报修项目"
                             android:textColor="@color/black"
                             android:textSize="20dp" />
 
                         <TextView
                             android:id="@+id/tv_rpairType"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:gravity="center"
                             android:hint="请选择"
                             android:textColorHint="@color/light"
                             android:textSize="17dp" />
@@ -172,8 +179,7 @@
                             android:id="@+id/select3"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="5dp"
+                            android:layout_gravity="end|center"
                             android:popupBackground="@color/light"
                             android:spinnerMode="dialog" />
                     </FrameLayout>
@@ -193,24 +199,21 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="1dp"
+                        android:text="问题描述"
+                        android:textColor="@color/black"
+                        android:textSize="20dp" />
+                    />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="1dp"
-                            android:text="问题描述"
-                            android:textColor="@color/black"
-                            android:textSize="16dp" />
-                        />
-                    </FrameLayout>
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
 
                         <EditText
                             android:id="@+id/write"
@@ -229,6 +232,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|end"
+                            android:layout_marginRight="5dp"
                             android:layout_marginBottom="10dp"
                             android:background="@mipmap/speak" />
 
@@ -239,7 +243,8 @@
                             android:layout_gravity="end|bottom"
                             android:layout_marginRight="50dp"
                             android:layout_marginBottom="10dp"
-                            android:text="200" />
+                            android:text="200"
+                            android:textSize="18dp" />
 
                     </FrameLayout>
                 </LinearLayout>
@@ -260,26 +265,26 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="45dp"
+                        android:padding="5dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_margin="5dp"
                             android:text="学工号"
                             android:textColor="@color/black"
                             android:textSize="20dp" />
 
                         <EditText
                             android:id="@+id/usernumber"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="match_parent"
-                            android:layout_gravity="end"
+                            android:layout_gravity="end|center"
                             android:layout_marginTop="2dp"
-                            android:layout_marginRight="10dp"
                             android:layout_marginBottom="2dp"
                             android:background="@null"
-                            android:hint="输入学号"
+                            android:hint="输入学工号"
                             android:inputType="number"
                             android:textColorHint="@color/light"
                             android:textSize="17dp" />
@@ -295,12 +300,13 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="45dp"
+                        android:padding="5dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_margin="5dp"
                             android:text="联系人"
                             android:textColor="@color/black"
                             android:textSize="20dp" />
@@ -314,11 +320,10 @@
 
                         <EditText
                             android:id="@+id/username"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="match_parent"
-                            android:layout_gravity="end"
+                            android:layout_gravity="end|center"
                             android:layout_marginTop="2dp"
-                            android:layout_marginRight="10dp"
                             android:layout_marginBottom="2dp"
                             android:background="@null"
                             android:hint="输入姓名"
@@ -337,23 +342,23 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="45dp"
+                        android:padding="5dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_margin="5dp"
                             android:text="联系电话"
                             android:textColor="@color/black"
                             android:textSize="20dp" />
 
                         <EditText
                             android:id="@+id/phone_number"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="end"
                             android:layout_marginTop="2dp"
-                            android:layout_marginRight="10dp"
                             android:layout_marginBottom="2dp"
                             android:background="@null"
                             android:hint="输入电话"
@@ -369,32 +374,30 @@
                         android:background="?android:attr/listDivider"
                         android:padding="2dp" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider"
-                        android:padding="2dp" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="45dp"
+                        android:padding="5dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_margin="5dp"
                             android:text="预约时间"
                             android:textColor="@color/black"
                             android:textSize="20dp" />
 
-                        <Button
-                            android:id="@+id/time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <TextView
+                            android:id="@+id/tv_getTime"
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
                             android:layout_gravity="end"
                             android:layout_margin="2dp"
-                            android:background="@drawable/shape1"
-                            android:text="选择时间" />
+                            android:drawableRight="@mipmap/common_right"
+                            android:gravity="center"
+                            android:hint="请选择时间"
+                            android:textSize="17dp" />
 
                     </FrameLayout>
                 </LinearLayout>
@@ -412,30 +415,43 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="上传图片" />
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
-                    <FrameLayout
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="上传图片"
+                            android:textColor="@color/black"
+                            android:textSize="20dp" />
+
+                        <ImageButton
+                            android:id="@+id/igb_uploadPhoto"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_centerVertical="true"
+                            android:background="@mipmap/common_item_upload"
+                            android:textColor="@color/black" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="200dp">
 
-                        <Button
-                            android:id="@+id/photo"
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:background="@mipmap/photo"
-                            android:textColor="@color/black" />
 
                         <ImageView
-                            android:id="@+id/pane"
+                            android:id="@+id/iv_photo"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:scaleType="center" />
 
-                    </FrameLayout>
+                    </RelativeLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -106,12 +106,12 @@
         </receiver>
 
         <activity
-            android:name=".Receiver.VPM"
+            android:name=".Activity.ViewpageActivity"
             android:launchMode="singleTask"
             android:theme="@style/myStyle2">
 
         </activity>
-        <activity android:name=".Loc"></activity>
+        <activity android:name=".Activity.LocActivity"></activity>
         <activity
             android:name=".Activity.RepairActivity"
             android:theme="@style/myStyle2"></activity>
@@ -121,6 +121,7 @@
             android:theme="@style/myStyle2" />
         <activity android:name=".Activity.UserMessageActivity" />
         <activity android:name=".Activity.SpotActivity"/>
+        <activity android:name=".Activity.FinishHistoryActivity"/>
     </application>
 </manifest>
 

@@ -1,5 +1,6 @@
 package com.example.qjh.r.Activity;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -44,12 +45,20 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.baidu.aip.imageclassify.AipImageClassify;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.example.qjh.r.Bean.MessageBomb;
 import com.example.qjh.r.Bean.User;
 import com.example.qjh.r.Control.BaseActivity;
 import com.example.qjh.r.Fragment.HomeFragment;
 import com.example.qjh.r.R;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,23 +75,25 @@ import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 public class RepairActivity extends BaseActivity implements View.OnClickListener {
+    private static final int LOCATION_SUCCESS = 1;
     final String[] spinnerItem = {"请选择", "花江", "金鸡岭", "西区"};
-    final String[] itemType = {"请选择", "电", "水", "五金","教学楼直饮饮水机","热泵"};
+    final String[] itemType = {"请选择", "电", "水", "五金", "教学楼直饮饮水机", "热泵"};
     private TextView tv_rpairType; //报修内容
     private Spinner spinner3;//选择框
     private Button put;
     private ImageButton speak;
     private TextView textnumber;
     public static EditText write;
-    private Button gettime;//获取时间
+    private TextView tv_getTime;//获取时间
     private EditText usernumber;//学号
     private EditText username; //姓名
     private EditText phone_number; //电话
     private Animation animation;
     private FrameLayout frameLayout;
     private TextView Msg;
-    private Button photo; //拍照
-    private ImageView pane;
+    private ImageButton igb_uploadPhoto; //拍照
+    private ImageView iv_photo;
+    private ImageButton igb_location;
     // 照片所在的Uri地址
     private Uri imageUri;
     private static Intent intent;//接受列表传值
@@ -93,13 +104,18 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
     public ArrayAdapter<String> adapter;
     public ArrayAdapter<String> adapter3;
 
-    private Boolean Modify;//是否修改
+    private Boolean Modify=false;//是否修改
     private String Id;
+    private LocationClient locationClient;
+    private String loactionDetail;
+
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-
+                case LOCATION_SUCCESS:
+                    Location.setText(loactionDetail);  //设置定位信息
+                    break;
             }
         }
     };
@@ -111,51 +127,46 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(this.getResources().getColor(R.color.white));
-
         intent = getIntent();
-        inti();
+        loactionDetail = intent.getStringExtra(LocActivity.LOCATION);
+
+        initial();
 
 
     }
 
-    public void inti() {
+    public void initial() {
         Location = (EditText) findViewById(R.id.Location);
+        igb_location = (ImageButton) findViewById(R.id.igb_location);
         back_msg = (ImageButton) findViewById(R.id.back_msg);
-        back_msg.setOnClickListener(this);
-        pane = (ImageView) findViewById(R.id.pane);
-        photo = (Button) findViewById(R.id.photo);
-        photo.setOnClickListener(this);
+        iv_photo = (ImageView) findViewById(R.id.iv_photo);
+        igb_uploadPhoto = (ImageButton) findViewById(R.id.igb_uploadPhoto);
         username = (EditText) findViewById(R.id.username);
         phone_number = (EditText) findViewById(R.id.phone_number);
         Msg = (TextView) findViewById(R.id.msg);
         frameLayout = (FrameLayout) findViewById(R.id.total_Hand);
-        frameLayout.setOnClickListener(this);
         usernumber = (EditText) findViewById(R.id.usernumber);
-        gettime = (Button) findViewById(R.id.time);
-        gettime.setOnClickListener(this);
+        tv_getTime = (TextView) findViewById(R.id.tv_getTime);
         put = (Button) findViewById(R.id.put);
-        put.setOnClickListener(this);
         write = (EditText) findViewById(R.id.write);
         textnumber = (TextView) findViewById(R.id.number_Text);
-
-        put.setOnClickListener(this);
         speak = (ImageButton) findViewById(R.id.speak);
-        speak.setOnClickListener(this);
         tv_rpairType = (TextView) findViewById(R.id.tv_rpairType);
-
-
         spinner3 = (Spinner) findViewById(R.id.select3);
+        speak.setOnClickListener(this);
+        back_msg.setOnClickListener(this);
+        iv_photo.setOnClickListener(this);
+        igb_uploadPhoto.setOnClickListener(this);
+        frameLayout.setOnClickListener(this);
+        tv_getTime.setOnClickListener(this);
+        put.setOnClickListener(this);
+        igb_location.setOnClickListener(this);
+        put.setOnClickListener(this);
+
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, spinnerItem);
         adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, itemType);
 
-
-        write.setText(intent.getStringExtra("4"));
-        username.setText(intent.getStringExtra("2"));
-        usernumber.setText(intent.getStringExtra("1"));
-        gettime.setText(intent.getStringExtra("3"));
-        Msg.setText(intent.getStringExtra("1"));
         spinner3.setAdapter(adapter3);
-
         spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -171,7 +182,9 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
-
+        if (loactionDetail != null) {
+            Location.setText(loactionDetail);
+        }
 
 //        animation = AnimationUtils.loadAnimation(this, R.anim.spinner);
 //        spinner.setOnTouchListener(new Spinner.OnTouchListener() {
@@ -184,20 +197,17 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
 
         change(); //文字变化监听
         //接受活动传回来的数据
-        Receive();
+        if(intent.getStringExtra(HomeFragment.ISTRUE).equals("-1"))
+        {
+            Receive();
+        }
 
     }
 
     private void Receive() {
-        Intent intent = getIntent();
+//        Intent intent = getIntent();
         if (intent != null) {
             Msg.setText(intent.getStringExtra("0"));
-            for (int i = 0; i < spinnerItem.length; i++) {
-                if (spinnerItem[i].equals(intent.getStringExtra("1"))) {
-                 //   spinner.setSelection(i);
-                    break;
-                }
-            }
             for (int i = 0; i < itemType.length; i++) {
                 if (itemType[i].equals(intent.getStringExtra("4"))) {
                     spinner3.setSelection(i);
@@ -209,8 +219,8 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
             usernumber.setText(intent.getStringExtra("6"));
             username.setText(intent.getStringExtra("7"));
             phone_number.setText(intent.getStringExtra("8"));
-            gettime.setText(intent.getStringExtra("9"));
-            Glide.with(this).load(intent.getStringExtra("10")).into(pane);
+            tv_getTime.setText(intent.getStringExtra("9"));
+            Glide.with(this).load(intent.getStringExtra("10")).into(iv_photo);
             Modify = intent.getBooleanExtra("Where", false);
             Id = intent.getStringExtra("id");
         }
@@ -239,7 +249,6 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
                     } else {
                         Toast.makeText(RepairActivity.this, "学号、联系人、联系电话不能为空", Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     if (!(usernumber.getText().toString().isEmpty() || phone_number.getText().toString().isEmpty() || username.getText().toString().isEmpty())) {
                         Modifys();
@@ -269,18 +278,72 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
                 break;
 
             //获取时间
-            case R.id.time:
+            case R.id.tv_getTime:
                 Gettime();
                 break;
 
-            case R.id.photo:
+            case R.id.igb_uploadPhoto:
                 takePhoto();
                 break;
 
             case R.id.back_msg:
                 finish();
                 break;
+            case R.id.igb_location:
+                requestPermission();
+                locationClient = new LocationClient(getApplicationContext());
+                LocationClientOption locationClientOption = new LocationClientOption();
+                locationClientOption.setOpenGps(true);
+                //  locationClientOption.setScanSpan(2000);
+                locationClientOption.setIgnoreKillProcess(true);
+                locationClientOption.setIsNeedAddress(true);
+                locationClientOption.setIsNeedLocationDescribe(true);
+                locationClientOption.setOpenAutoNotifyMode();
+                locationClientOption.setCoorType("bd09ll");
+                locationClientOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+                locationClient.setLocOption(locationClientOption);
+                MyLocationLister myLocationLister = new MyLocationLister();
+                locationClient.registerLocationListener(myLocationLister);
+                locationClient.start();
 
+                break;
+
+            case R.id.iv_photo:
+                new XPopup.Builder(this)
+                        .asImageViewer(iv_photo, imageUri, true, -1,
+                                -1, 50, false, new ImageLoader())
+                        .show();
+                break;
+
+        }
+    }
+
+    public class MyLocationLister extends BDAbstractLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            loactionDetail = bdLocation.getLocationDescribe();
+            handler.sendEmptyMessage(LOCATION_SUCCESS);
+        }
+
+    }
+
+    public static class ImageLoader implements XPopupImageLoader {
+        @Override
+        public void loadImage(int position, @NonNull Object url, @NonNull ImageView imageView) {
+            //必须指定Target.SIZE_ORIGINAL，否则无法拿到原图，就无法享用天衣无缝的动画
+            Glide.with(imageView).load(url).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).
+                    override(Target.SIZE_ORIGINAL)).into(imageView);
+        }
+
+        @Override
+        public File getImageFile(@NonNull Context context, @NonNull Object uri) {
+            try {
+                return Glide.with(context).downloadOnly().load(uri).submit().get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 
@@ -354,17 +417,6 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
         voice.initSpeech(RepairActivity.this);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startRecord();
-        } else {
-            Toast.makeText(this, "用户拒绝了权限", Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
 
     private void Modifys() {
         if (imageUri == null) {
@@ -381,7 +433,7 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
             message_bomb.setValue("name", username.getText().toString());
             message_bomb.setValue("number", usernumber.getText().toString());
             message_bomb.setValue("phone", phone_number.getText().toString());
-            message_bomb.setValue("time", gettime.getText().toString());
+            message_bomb.setValue("time", tv_getTime.getText().toString());
             message_bomb.update(Id, new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
@@ -412,7 +464,8 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
                         message_bomb.setValue("name", username.getText().toString());
                         message_bomb.setValue("number", usernumber.getText().toString());
                         message_bomb.setValue("phone", phone_number.getText().toString());
-                        message_bomb.setValue("time", gettime.getText().toString());
+                        message_bomb.setValue("time", tv_getTime.getText().toString());
+                        message_bomb.setValue("isFinish", false);
                         message_bomb.update(Id, new UpdateListener() {
                             @Override
                             public void done(BmobException e) {
@@ -453,13 +506,14 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
                         message_bomb.setName(username.getText().toString());
                         message_bomb.setNumber(usernumber.getText().toString());
                         message_bomb.setPhone(phone_number.getText().toString());
-                        message_bomb.setTime(gettime.getText().toString());
+                        message_bomb.setTime(tv_getTime.getText().toString());
+                        message_bomb.setFinish(false);
                         message_bomb.setIdd(user.getObjectId());
                         message_bomb.save(new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
                                 if (e == null) {
-                                    MessageBomb message_bomb1 = new MessageBomb(Msg.getText().toString(), write.getText().toString(), Location.getText().toString(), usernumber.getText().toString(), username.getText().toString(), gettime.getText().toString());
+                                    MessageBomb message_bomb1 = new MessageBomb(Msg.getText().toString(), write.getText().toString(), Location.getText().toString(), usernumber.getText().toString(), username.getText().toString(), tv_getTime.getText().toString());
                                     HomeFragment.message_bombs_list.add(message_bomb);
                                     HomeFragment.fruit_adapter.notifyDataSetChanged();
                                     Toast.makeText(RepairActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
@@ -487,7 +541,7 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
                     try {
                         //该uri是上一个Activity返回的
                         imageUri = data.getData();
-                        Glide.with(this).load(imageUri).into(pane);
+                        Glide.with(this).load(imageUri).into(iv_photo);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -495,7 +549,7 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
                 case 2:
                     try {
                         //    imageUri = data.getData();
-                        Glide.with(this).load(imageUri).into(pane);
+                        Glide.with(this).load(imageUri).into(iv_photo);
                         final File file = uriToFile(imageUri, this);
                         Log.d("onActivityResult_class",
                                 "onActivityResult: /" + file.getAbsolutePath());
@@ -528,7 +582,7 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 stringBuilder.append(hourOfDay + ":" + minute);
-                gettime.setText(stringBuilder);
+                tv_getTime.setText(stringBuilder);
             }
         }, calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), true).show();
 
@@ -709,4 +763,43 @@ public class RepairActivity extends BaseActivity implements View.OnClickListener
     }
 
 
+    /**
+     * 请求权限
+     */
+    private static final int BAIDU_READ_PHONE_STATE = 100;//定位权限请求
+
+    private void requestPermission() {
+
+        if (Build.VERSION.SDK_INT >= 23) { //判断是否为android6.0系统版本，如果是，需要动态添加权限
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {// 没有权限，申请权限。
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        BAIDU_READ_PHONE_STATE);
+            }
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startRecord();
+        } else {
+            Toast.makeText(this, "用户拒绝了权限", Toast.LENGTH_SHORT).show();
+        }
+        switch (requestCode) {
+            case BAIDU_READ_PHONE_STATE://刚才的识别码
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
+                    //  startLocaion();//开始定位
+                } else {
+                    //用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
+                    Toast.makeText(this, "未开启定位权限,请手动到设置去开启权限", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -16,15 +16,33 @@
 
         </com.baidu.mapapi.map.MapView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/click_loc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="25dp"
-            android:clickable="true"
-            android:src="@mipmap/loc"
-            app:backgroundTint="@color/cardview_light_background"
-            app:pressedTranslationZ="2dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/click_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="25dp"
+                android:clickable="true"
+                android:src="@mipmap/loc"
+                app:backgroundTint="@color/cardview_light_background"
+                app:pressedTranslationZ="2dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/click_loc"
+                android:id="@+id/click_repair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="25dp"
+                android:clickable="true"
+                android:src="@mipmap/repair"
+                app:backgroundTint="@color/cardview_light_background"
+                app:pressedTranslationZ="2dp" />
+        </RelativeLayout>
     </FrameLayout>
 </LinearLayout>

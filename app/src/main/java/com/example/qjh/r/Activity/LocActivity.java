@@ -1,87 +1,98 @@
-package com.example.qjh.r;
+package com.example.qjh.r.Activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.baidu.mapapi.CoordType;
-import com.baidu.mapapi.map.MapStatus;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
-
-
 import com.example.qjh.r.Control.BaseActivity;
+import com.example.qjh.r.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class Loc  extends BaseActivity{
+public class LocActivity extends BaseActivity {
+    public static String LOCATION = "LOCATION";
     public LocationClient locationClient;
     private TextView textView;
     private MapView mMapView = null;
     private BaiduMap baiduMap; //定义百度地图控件
-    private boolean isFirstLocation=true;
+    private boolean isFirstLocation = true;
     private FloatingActionButton click_loc;
+    private FloatingActionButton click_repair;
     private BDLocation thisloc;
+    private String loactionDetail;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // requestWindowFeature(Window.FEATURE_NO_TITLE);
         SDKInitializer.initialize(getApplicationContext());
         SDKInitializer.setCoordType(CoordType.BD09LL);
         setContentView(R.layout.map);
         requestPermission();
-        click_loc=(FloatingActionButton)findViewById(R.id.click_loc);
+        click_loc = (FloatingActionButton) findViewById(R.id.click_loc);
+        click_repair = (FloatingActionButton) findViewById(R.id.click_repair);
         click_loc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(thisloc!=null)
-                {
+                if (thisloc != null) {
                     navigate(thisloc);
                 }
             }
         });
 
-        mMapView = (MapView) findViewById(R.id.mapview);
-        locationClient=new LocationClient(getApplicationContext());
-        LocationClientOption locationClientOption=new LocationClientOption();
+        click_repair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LocActivity.this, RepairActivity.class);
+                intent.putExtra(LocActivity.LOCATION, loactionDetail);
+                startActivity(intent);
+                finish();
 
+            }
+        });
+
+
+        mMapView = (MapView) findViewById(R.id.mapview);
+        locationClient = new LocationClient(getApplicationContext());
+        LocationClientOption locationClientOption = new LocationClientOption();
         locationClientOption.setOpenGps(true);
-      //  locationClientOption.setScanSpan(2000);
+        //  locationClientOption.setScanSpan(2000);
         locationClientOption.setIgnoreKillProcess(true);
+        locationClientOption.setIsNeedAddress(true);
+        locationClientOption.setIsNeedLocationDescribe(true);
         locationClientOption.setOpenAutoNotifyMode();
         locationClientOption.setCoorType("bd09ll");
         locationClientOption.setPriority(LocationClientOption.GpsFirst); //设置gps优先
         locationClientOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
 
-     //   locationClientOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //   locationClientOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         locationClient.setLocOption(locationClientOption);
-        baiduMap=mMapView.getMap();
-        MyLocationLister myLocationLister=new MyLocationLister();
+        baiduMap = mMapView.getMap();
+        MyLocationLister myLocationLister = new MyLocationLister();
         locationClient.registerLocationListener(myLocationLister);
         baiduMap.setMyLocationEnabled(true);
         locationClient.start();
-
-
-
-
-
 
 
     }
@@ -109,46 +120,45 @@ public class Loc  extends BaseActivity{
     }
 
 
-    private  void navigate(BDLocation bdLocation)
-    {
-        MyLocationData.Builder data=new MyLocationData.Builder();
+    private void navigate(BDLocation bdLocation) {
+        MyLocationData.Builder data = new MyLocationData.Builder();
         data.latitude(bdLocation.getLatitude());
         data.longitude(bdLocation.getLongitude());
         bdLocation.setRadius(50f);
-        data .accuracy(bdLocation.getRadius());  //设置蓝圈范围
-        MyLocationData myLocationData=data.build();
-
+        data.accuracy(bdLocation.getRadius());  //设置蓝圈范围
+        MyLocationData myLocationData = data.build();
 
 
         baiduMap.setMyLocationData(myLocationData);
 
 //        if(isFirstLocation) {
-           LatLng latLng = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
-         //  MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(latLng);
-           //baiduMap.animateMapStatus(update);
+        LatLng latLng = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+        //  MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(latLng);
+        //baiduMap.animateMapStatus(update);
 
-           MapStatus.Builder builder = new MapStatus.Builder();
-           builder.target(latLng).zoom(20.0f);
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.target(latLng).zoom(20.0f);
 
-          // MapStatusUpdate update = MapStatusUpdateFactory.zoomTo(18f);
-           baiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        // MapStatusUpdate update = MapStatusUpdateFactory.zoomTo(18f);
+        baiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         //   baiduMap.animateMapStatus(update);
-           isFirstLocation = false;
-  //     }
+        isFirstLocation = false;
+        //     }
 
     }
 
-    public  class  MyLocationLister extends BDAbstractLocationListener {
+    public class MyLocationLister extends BDAbstractLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
-            thisloc=bdLocation;
-            Log.d("onReceiveLocation_class", "onReceiveLocation: "+bdLocation.getLatitude());
-            if (bdLocation == null || mMapView == null){
+            thisloc = bdLocation;
+            Log.d("onReceiveLocation_class", "onReceiveLocation: " + bdLocation.getLatitude());
+            if (bdLocation == null || mMapView == null) {
                 return;
             }
-            Log.d("onReceiveLocation_class", "onReceiveLocation: "+bdLocation.getLatitude());
-            Log.d("onReceiveLocation_class", "onReceiveLocation: "+bdLocation.getLongitude());
+            Log.d("onReceiveLocation_class", "onReceiveLocation: " + bdLocation.getLatitude());
+            Log.d("onReceiveLocation_class", "onReceiveLocation: " + bdLocation.getLongitude());
+            loactionDetail = bdLocation.getLocationDescribe();
             navigate(bdLocation);
 //            else
 //            {
@@ -163,10 +173,12 @@ public class Loc  extends BaseActivity{
         }
 
     }
+
     /**
      * 请求权限
      */
     private static final int BAIDU_READ_PHONE_STATE = 100;//定位权限请求
+
     private void requestPermission() {
 
         if (Build.VERSION.SDK_INT >= 23) { //判断是否为android6.0系统版本，如果是，需要动态添加权限
@@ -180,7 +192,7 @@ public class Loc  extends BaseActivity{
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {

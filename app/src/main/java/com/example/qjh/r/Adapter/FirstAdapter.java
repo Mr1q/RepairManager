@@ -8,17 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.example.qjh.r.R;
-import com.example.qjh.r.Receiver.VPM;
 import com.example.qjh.r.Bean.MessageBomb;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.qjh.r.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 
@@ -28,13 +25,13 @@ import java.util.List;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.ViewHolder> {
 
     private final Context context;
     private List<MessageBomb> message_bombs;
     private OnItemClickListener onItemClickListener;
+    private OnItemLongClickListener onItemLongClickListener;
 
 
     @Override
@@ -53,32 +50,10 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.ViewHolder> 
         viewHolder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Snackbar.make(view,"是否删除数据",Snackbar.LENGTH_SHORT).setAction("Yes", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int position = viewHolder.getAdapterPosition();
-                        MessageBomb message_bombss=new MessageBomb();
-                        message_bombss.setObjectId(message_bombs.get(position).getSelf());
-                        message_bombss.delete(new UpdateListener() {
-
-
-
-                            @Override
-                            public void done(BmobException e) {
-                                if(e==null)
-                                {
-                                    Toast.makeText(view.getContext(), "删除成功", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-                        removeItem(position);
-                        VPM.SetBadgeNum(message_bombs.size());
-                    }
-                }).show();
-
-
-                return true;
+                int position = viewHolder.getAdapterPosition();
+                 MessageBomb message_bomb = (MessageBomb) message_bombs.get(position);
+                 onItemLongClickListener.onDelete(message_bomb,position);
+                 return true;
             }
         });
 
@@ -98,6 +73,9 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.ViewHolder> 
     public interface OnItemClickListener {
         void onClick(int position);
     }
+    public interface OnItemLongClickListener {
+        void onDelete(final MessageBomb messageBomb,final int position);
+    }
 
     @Override
     public void onBindViewHolder(final FirstAdapter.ViewHolder viewHolder, int i) {
@@ -108,13 +86,22 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.ViewHolder> 
 //        viewHolder.name_Front.setText(msg.getName());
         viewHolder.time_Front.setText(msg.getTime());
         viewHolder.locaton_Front.setText(msg.getLocation());
+        if(msg.getFinish())
+        {
+            viewHolder.tv_repairState.setText("已维修");
+            viewHolder.tv_repairState.setTextColor(context.getResources().getColor(R.color.blue));
+        }else
+        {
+            viewHolder.tv_repairState.setText("未维修");
+            viewHolder.tv_repairState.setTextColor(context.getResources().getColor(R.color.Red));
+        }
 
     //    File file=downloadFile(msg.getPicture());
         Glide.with(viewHolder.view.getContext()).load(msg.getPicture_uri()).into(viewHolder.picture);
         viewHolder.picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"点击",Toast.LENGTH_SHORT).show();
                 new XPopup.Builder(context)
                         .asImageViewer(viewHolder.picture, msg.getPicture_uri() , true, -1, -1, 50, false,new ImageLoader())
                         .show();
@@ -171,10 +158,10 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView Title_Front; //标题
         TextView Obj_Front;  //项目名称
-//        TextView number_Front; //学号
-//        TextView name_Front; //姓名
         TextView time_Front; //预约时间
         TextView locaton_Front; //位置
+        TextView tv_repairState; //维修状态
+
         ImageView picture; //图片
         View view;
 
@@ -182,6 +169,7 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.ViewHolder> 
             super(itemView);
             Title_Front = (TextView) itemView.findViewById(R.id.title_front);
             Obj_Front = (TextView) itemView.findViewById(R.id.obj_front);
+            tv_repairState = (TextView) itemView.findViewById(R.id.tv_repairState);
 //            number_Front = (TextView) itemView.findViewById(R.id.number_front);
 //            name_Front = (TextView) itemView.findViewById(R.id.name_front);
             time_Front = (TextView) itemView.findViewById(R.id.time_front);
@@ -193,6 +181,9 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.ViewHolder> 
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
     }
 
     public static class ImageLoader implements XPopupImageLoader {

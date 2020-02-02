@@ -36,7 +36,7 @@ public class RegisterActivity extends BaseActivity  implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        setContentView(R.layout.common_activity_register);
         user_numebr=(EditText)findViewById(R.id.account_input);
         user_password=(EditText)findViewById(R.id.password_input);
         user_password_again=(EditText)findViewById(R.id.password_again);

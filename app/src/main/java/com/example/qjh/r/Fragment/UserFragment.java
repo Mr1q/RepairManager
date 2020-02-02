@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.qjh.r.Activity.FinishHistoryActivity;
 import com.example.qjh.r.Bean.User;
 import com.example.qjh.r.R;
 import com.example.qjh.r.Activity.UserMessageActivity;
@@ -43,6 +44,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private CircleImageView Head_image;
     private FrameLayout MSG_Enter;//信息界面
     private RelativeLayout About_more;
+    private RelativeLayout rl_history;
     public SwipeRefreshLayout refreshLayout;
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
@@ -50,8 +52,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SUCCESS:
-                    Enter_name.setText("用户名:"+user.getName());
-                    Enter_number.setText("学号:"+user.getNumber());
+                    Enter_name.setText("用户名:" + user.getName());
+                    Enter_number.setText("学号:" + user.getNumber());
                     if (user.getImage() != null) {
                         Glide.with(getContext()).load(user.getImage().getFileUrl()).into(Head_image);
                     }
@@ -88,12 +90,14 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             }
         });
         About_more = (RelativeLayout) view.findViewById(R.id.About_more);
+        rl_history = (RelativeLayout) view.findViewById(R.id.rl_history);
         About_more.setOnClickListener(this);
         MSG_Enter = (FrameLayout) view.findViewById(R.id.MSG_Enter);
         Head_image = (CircleImageView) view.findViewById(R.id.message_image_total);
         Enter_name = (TextView) view.findViewById(R.id.Enter_name);
         Enter_number = (TextView) view.findViewById(R.id.Enter_number);
         MSG_Enter.setOnClickListener(this);
+        rl_history.setOnClickListener(this);
         Head_image = (CircleImageView) view.findViewById(R.id.message_image_total);
         Fresh();
 
@@ -128,14 +132,19 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
+
             case R.id.MSG_Enter:
-                Intent intent = new Intent(getContext(), UserMessageActivity.class);
+                intent = new Intent(getContext(), UserMessageActivity.class);
                 startActivityForResult(intent, 1);
                 break;
             case R.id.About_more:
                 Snackbar.make(view, "谢谢使用", Snackbar.LENGTH_SHORT).show();
-
+                break;
+            case R.id.rl_history:
+                intent = new Intent(getContext(), FinishHistoryActivity.class);
+                startActivity(intent);
                 break;
         }
     }

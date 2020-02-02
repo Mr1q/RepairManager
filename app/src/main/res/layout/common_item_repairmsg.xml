@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="180dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_margin="10dp"
         app:cardElevation="6dp"
         app:cardCornerRadius="8dp">
@@ -151,7 +150,27 @@
                         android:maxLines="1"
                         android:text="" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="状态:" />
+
+                    <TextView
+                        android:id="@+id/tv_repairState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:textColor="@color/Red"
+                        android:textSize="16dp"
+                        android:maxLines="1"
+                        android:text="待维修" />
+                </LinearLayout>
 
             </LinearLayout>
 

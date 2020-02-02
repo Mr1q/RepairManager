@@ -1,4 +1,4 @@
-package com.example.qjh.r.Receiver;
+package com.example.qjh.r.Activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import com.example.qjh.r.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener ,BottomNavigationBar.OnTabSelectedListener{
+public class ViewpageActivity extends BaseActivity implements ViewPager.OnPageChangeListener ,BottomNavigationBar.OnTabSelectedListener{
 //    private BottomNavigationBar bottomNavigationBar;
     private BottomNavigationBar bottomNavigationBar;
     private ViewPager vp;
@@ -55,8 +55,8 @@ public class VPM extends BaseActivity implements ViewPager.OnPageChangeListener 
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         bottomNavigationBar.setBarBackgroundColor(R.color.background);
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.mask, "消息").setActiveColorResource(R.color.black).setBadgeItem(badgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.total, "任务").setActiveColorResource(R.color.black))
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.mask, "记录").setActiveColorResource(R.color.black).setBadgeItem(badgeItem))
+                .addItem(new BottomNavigationItem(R.mipmap.total, "首页").setActiveColorResource(R.color.black))
                 .addItem(new BottomNavigationItem(R.mipmap.me, "我的").setActiveColorResource(R.color.black))
                 .setFirstSelectedPosition(0)
                 .initialise(); //所有的设置需在调用该方法前完成

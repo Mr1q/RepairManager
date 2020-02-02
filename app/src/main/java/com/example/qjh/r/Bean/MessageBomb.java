@@ -16,6 +16,16 @@ public class MessageBomb extends BmobObject {
     private String name; //联系人姓名
     private String time; //预约时间
 
+    public Boolean getFinish() {
+        return isFinish;
+    }
+
+    public void setFinish(Boolean finish) {
+        isFinish = finish;
+    }
+
+    private Boolean isFinish; //维修是否完成
+
     private String Self;//
 
     public String getLocation() {
@@ -106,7 +116,7 @@ public class MessageBomb extends BmobObject {
         return Msg;
     }
 
-    public MessageBomb(String title, String obj_Name, String location, String number, String name, String time, String msg, String phone, BmobFile picture, String self) {
+    public MessageBomb(Boolean isFinish,String title, String obj_Name, String location, String number, String name, String time, String msg, String phone, BmobFile picture, String self) {
         this.title = title;
         this.obj_Name = obj_Name;
         this.Location = location;
@@ -117,6 +127,7 @@ public class MessageBomb extends BmobObject {
         this.Msg = msg;
         this.picture = picture;
         this.Self = self;
+        this.isFinish=isFinish;
 
     }
 

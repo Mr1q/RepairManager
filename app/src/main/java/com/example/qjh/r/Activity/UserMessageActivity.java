@@ -14,6 +14,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -66,6 +68,9 @@ public class UserMessageActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_message);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.light));
         init();
         Init_Meg();
 
@@ -197,13 +202,13 @@ public class UserMessageActivity extends BaseActivity implements View.OnClickLis
                 final CustomPopupWindow popupWindow = new CustomPopupWindow.Builder()
                         .setContext(this) //设置 context
                         .setContentView(R.layout.head_image) //设置布局文件
-                        .setwidth(LinearLayout.LayoutParams.WRAP_CONTENT) //设置宽度，由于我已经在布局写好，这里就用 wrap_content就好了
+                        .setwidth(LinearLayout.LayoutParams.WRAP_CONTENT) //设置宽度，这里就用 wrap_content就好了
                         .setheight(LinearLayout.LayoutParams.WRAP_CONTENT) //设置高度
                         .setFouse(true)  //设置popupwindow 是否可以获取焦点
                         .setOutSideCancel(true) //设置点击外部取消
                         .setBackGroudAlpha(UserMessageActivity.this, 0.7f) //是否设置背景色，原理为调节 apha
                         .builder()
-                        .showAtLocation(R.layout.common_activity_repairMessage_, Gravity.BOTTOM, 0, 0); //设置popupwindow居中显示
+                        .showAtLocation(R.layout.user_message, Gravity.BOTTOM, 0, 0); //设置popupwindow居中显示
                 //添加点击事件
                 popupWindow.setOnClickListener(R.id.pop_pic, new View.OnClickListener() {
                     @Override

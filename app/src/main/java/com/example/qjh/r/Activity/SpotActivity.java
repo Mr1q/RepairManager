@@ -96,7 +96,7 @@ public class SpotActivity extends BaseActivity implements View.OnClickListener {
                 .setOutSideCancel(true) //设置点击外部取消
                 .setBackGroudAlpha(SpotActivity.this, 0.7f) //是否设置背景色，原理为调节 apha
                 .builder()
-                .showAtLocation(R.layout.common_activity_repairMessage_, Gravity.BOTTOM, 0, 0); //设置popupwindow居中显示
+                .showAtLocation(R.layout.activity_spot_layout, Gravity.BOTTOM, 0, 0); //设置popupwindow居中显示
         //添加点击事件
         popupWindow.setOnClickListener(R.id.pop_pic, new View.OnClickListener() {
             @Override

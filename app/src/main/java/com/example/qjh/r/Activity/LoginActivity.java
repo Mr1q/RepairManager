@@ -18,7 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.qjh.r.Bean.User;
 import com.example.qjh.r.Control.BaseActivity;
 import com.example.qjh.r.R;
-import com.example.qjh.r.Receiver.VPM;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobConfig;
@@ -60,7 +59,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             User_Number.setText(savedInstanceState.getString("User_number"));
         }
         if (BmobUser.isLogin()) {
-            Intent intent = new Intent(LoginActivity.this, VPM.class);
+            Intent intent = new Intent(LoginActivity.this, ViewpageActivity.class);
             startActivity(intent);
             finish();
         }
@@ -135,7 +134,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                progressDialog.setCancelable(false);
 //                progressDialog.show();
                 if (BmobUser.isLogin()) {
-                    Intent intent = new Intent(LoginActivity.this, VPM.class);
+                    Intent intent = new Intent(LoginActivity.this, ViewpageActivity.class);
 //                    User user=BmobUser.getCurrentUser(User.class);
 
 
@@ -157,7 +156,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             if (e == null) {
                                 User user = BmobUser.getCurrentUser(User.class);
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, VPM.class);
+                                Intent intent = new Intent(LoginActivity.this, ViewpageActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {

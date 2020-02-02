@@ -34,11 +34,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.qjh.r.Activity.RepairActivity;
 import com.example.qjh.r.Activity.SpotActivity;
+import com.example.qjh.r.Activity.ViewpageActivity;
 import com.example.qjh.r.Adapter.FirstAdapter;
 import com.example.qjh.r.Bean.MessageBomb;
 import com.example.qjh.r.Bean.User;
 import com.example.qjh.r.R;
-import com.example.qjh.r.Receiver.VPM;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupAnimation;
+import com.lxj.xpopup.impl.LoadingPopupView;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,10 +54,14 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
+    public static final String ISTRUE = "ISTRUE";
     private static final int SUCCESS = 1;
+    private static final int DELETE_SUCCESS = 2;
     private View view;
+    private View ly_null;
     private ImageView repair;//维修
     private ImageView iv_photo;//维修
     private EditText search;
@@ -64,17 +72,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static User user = BmobUser.getCurrentUser(User.class);
     public static int Numbwe; //实时个数
     private SwipeRefreshLayout refreshLayout; //下拉刷新
-    private Handler handler=new Handler(Looper.getMainLooper())
-    {
+    private LoadingPopupView loadingPopup;
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what)
-            {
+            switch (msg.what) {
                 case SUCCESS:
                     Find();
                     refreshLayout.setRefreshing(false);
-                    Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
+
                     break;
+                case DELETE_SUCCESS:
+                    Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                    loadingPopup.dismiss();
+                    Fresh();
+                    break;
+
             }
         }
     };
@@ -94,20 +107,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init() {
-        search=view.findViewById(R.id.search);
+        search = view.findViewById(R.id.search);
+        ly_null = view.findViewById(R.id.ly_null);
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_SEARCH)
-                {
-                    if(!search.getText().toString().isEmpty()) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (!search.getText().toString().isEmpty()) {
                         BmobQuery<MessageBomb> query = new BmobQuery<>();
                         query.addWhereEqualTo("title", search.getText());
                         query.findObjects(new FindListener<MessageBomb>() {
                             @Override
                             public void done(List<MessageBomb> list, BmobException e) {
                                 if (e == null) {
-                                    message_bombList=list;
+                                    message_bombList = list;
                                     Find();
                                 }
                             }
@@ -125,15 +138,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!search.getText().toString().isEmpty())
-                {
+                if (!search.getText().toString().isEmpty()) {
                     BmobQuery<MessageBomb> query = new BmobQuery<>();
                     query.addWhereEqualTo("title", search.getText());
                     query.findObjects(new FindListener<MessageBomb>() {
                         @Override
                         public void done(List<MessageBomb> list, BmobException e) {
                             if (e == null) {
-                                message_bombList=list;
+                                message_bombList = list;
                                 Find();
                             }
                         }
@@ -144,26 +156,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                    if(search.getText().toString().isEmpty())
-                    {
-                        BmobQuery<MessageBomb> query = new BmobQuery<>();
-                        query.addWhereEqualTo("idd", user.getObjectId());
-                        query.findObjects(new FindListener<MessageBomb>() {
-                            @Override
-                            public void done(List<MessageBomb> list, BmobException e) {
-                                if (e == null) {
-                                    message_bombList=list;
-                                    Find();
-                                }
+                if (search.getText().toString().isEmpty()) {
+                    BmobQuery<MessageBomb> query = new BmobQuery<>();
+                    query.addWhereEqualTo("idd", user.getObjectId());
+                    query.findObjects(new FindListener<MessageBomb>() {
+                        @Override
+                        public void done(List<MessageBomb> list, BmobException e) {
+                            if (e == null) {
+                                message_bombList = list;
+                                Find();
                             }
-                        });
-                        search.clearFocus();
-                        InputMethodManager inputMethodManager=(InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if(inputMethodManager!=null)
-                        {
-                            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                         }
+                    });
+                    search.clearFocus();
+                    InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (inputMethodManager != null) {
+                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
+                }
 
             }
         });
@@ -172,7 +182,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                
                 Fresh();
             }
         });
@@ -186,7 +195,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void done(List<MessageBomb> list, BmobException e) {
                 if (e == null) {
-                    message_bombList=list;
+                    message_bombList = list;
                     Find();
                     refreshLayout.setRefreshing(false);
                 }
@@ -196,27 +205,41 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         iv_photo = (ImageView) view.findViewById(R.id.iv_photo);
         repair.setOnClickListener(this);
         iv_photo.setOnClickListener(this);
+
+
     }
 
-    
+
     private void Find() {
+
         message_bombs_list.clear();
         for (MessageBomb msg : message_bombList) {
-            message_bombs_list.add(new MessageBomb(msg.getTitle(), msg.getObj_Name(), msg.getLocation(), msg.getNumber(), msg.getName(), msg.getTime(), msg.getArea1(), msg.getArea2(), msg.getMsg(), msg.getPhone(), msg.getPicture(), msg.getObjectId()));
+            if(msg.getFinish()==false)
+            {
+                message_bombs_list.add(new MessageBomb(false, msg.getTitle(), msg.getObj_Name(),
+                        msg.getLocation(), msg.getNumber(), msg.getName(),
+                        msg.getTime(), msg.getMsg(), msg.getPhone(),
+                        msg.getPicture(), msg.getObjectId()));
+            }
         }
-        VPM.SetBadgeNum(message_bombs_list.size());
-        fruit_adapter = new FirstAdapter(message_bombs_list,getContext());
+        if (message_bombs_list.size() == 0) {
+            ly_null.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+        } else {
+            ly_null.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        ViewpageActivity.SetBadgeNum(message_bombs_list.size());
+        fruit_adapter = new FirstAdapter(message_bombs_list, getContext());
         recyclerView.setAdapter(fruit_adapter);
         fruit_adapter.notifyDataSetChanged();
-
         fruit_adapter.setOnItemClickListener(new FirstAdapter.OnItemClickListener() {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(getContext(), RepairActivity.class);
                 MessageBomb message_bomb = message_bombs_list.get(position);
                 intent.putExtra("0", message_bomb.getTitle());
-                intent.putExtra("1", message_bomb.getArea1());
-                // intent.putExtra("2",message_bomb.getArea2());
+                intent.putExtra(ISTRUE, "-1");
                 intent.putExtra("3", message_bomb.getLocation());
                 intent.putExtra("4", message_bomb.getObj_Name());
                 intent.putExtra("5", message_bomb.getMsg());
@@ -230,10 +253,47 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra("Where", true);
                 startActivity(intent);
             }
+
         });
+        fruit_adapter.setOnItemLongClickListener(new FirstAdapter.OnItemLongClickListener() {
+            @Override
+            public void onDelete(final MessageBomb messageBomb, final int position) {
+                //Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+                new XPopup.Builder(getContext())
+//                         .dismissOnTouchOutside(false)
+//                         .autoDismiss(false)
+                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
+                        .asConfirm("提醒", "确定是否删除",
+                        "取消", "确定",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                  loadingPopup = (LoadingPopupView) new XPopup.Builder(getContext())
+                                        .dismissOnBackPressed(false)
+                                        .asLoading("正在删除中")
+                                        .show();
+                                MessageBomb message_bombss = new MessageBomb();
+                                message_bombss.setObjectId(messageBomb.getSelf());
+                                message_bombss.delete(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null) {
+                                            handler.sendEmptyMessage(DELETE_SUCCESS);
+
+                                        }
+                                    }
+                                });
+                            }
+                        }, null, false)
+                        .show();
+
+
+            }
+        });
+
     }
 
-    private File downloadFile(BmobFile file){
+    private File downloadFile(BmobFile file) {
         //允许设置下载文件的存储路径，默认下载文件的目录为：context.getApplicationContext().getCacheDir()+"/bmob/"
         File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
         file.download(saveFile, new DownloadFileListener() {
@@ -243,39 +303,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void done(String savePath,BmobException e) {
-                if(e==null){
-                    Toast.makeText(getContext(),"下载成功,保存路径:"+savePath ,Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getContext(),"下载失败："+e.getErrorCode()+","+e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void done(String savePath, BmobException e) {
+                if (e == null) {
+                    Toast.makeText(getContext(), "下载成功,保存路径:" + savePath, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "下载失败：" + e.getErrorCode() + "," + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onProgress(Integer value, long newworkSpeed) {
-                Log.i("bmob","下载进度："+value+","+newworkSpeed);
+                Log.i("bmob", "下载进度：" + value + "," + newworkSpeed);
             }
 
         });
-        return  saveFile;
+        return saveFile;
     }
 
     private void Fresh() {
 
-                BmobQuery<MessageBomb> query = new BmobQuery<>();
-                query.addWhereEqualTo("idd", user.getObjectId());
-                query.findObjects(new FindListener<MessageBomb>() {
-                    @Override
-                    public void done(List<MessageBomb> list, BmobException e) {
-                        if (e == null) {
-                            handler.sendEmptyMessage(SUCCESS);
-                            message_bombList=list;
-//                            Find();
-                        }
-                    }
-                });
-                fruit_adapter.notifyDataSetChanged();
+        BmobQuery<MessageBomb> query = new BmobQuery<>();
+        query.addWhereEqualTo("idd", user.getObjectId());
+        query.findObjects(new FindListener<MessageBomb>() {
+            @Override
+            public void done(List<MessageBomb> list, BmobException e) {
+                if (e == null) {
+                    message_bombList = list;
+                    handler.sendEmptyMessage(SUCCESS);
 
+                }
+            }
+        });
 
 
     }
@@ -319,9 +377,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.iv_photo:
-                Intent intent=new Intent(getContext(), SpotActivity.class);
+                Intent intent = new Intent(getContext(), SpotActivity.class);
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Fresh();
     }
 }

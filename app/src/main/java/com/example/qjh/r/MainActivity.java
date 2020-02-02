@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-              //  Intent intent = new Intent(MainActivity.this, Login.class);
-              //  startActivity(intent);
-               // finish();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override

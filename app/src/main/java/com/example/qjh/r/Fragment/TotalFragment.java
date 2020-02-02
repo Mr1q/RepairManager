@@ -24,7 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.qjh.r.Control.ActivityCollector;
-import com.example.qjh.r.Loc;
+import com.example.qjh.r.Activity.LocActivity;
 import com.example.qjh.r.Activity.RepairActivity;
 import com.example.qjh.r.R;
 import com.example.qjh.r.Activity.EvaluateActivity;
@@ -49,7 +49,7 @@ public class TotalFragment extends Fragment implements View.OnClickListener {
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), Loc.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), LocActivity.class);
                 startActivity(intent);
 
             }
