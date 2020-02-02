@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.qjh.r.Adapter.FirstAdapter;
+import com.example.qjh.r.Adapter.HistoryAdapter;
 import com.example.qjh.r.Bean.MessageBomb;
 import com.example.qjh.r.Bean.User;
 import com.example.qjh.r.Control.BaseActivity;
@@ -54,8 +54,8 @@ public class FinishHistoryActivity extends BaseActivity {
         getData();
     }
 
-    public List<MessageBomb> message_bombList=new ArrayList<>();
-    public ArrayList<MessageBomb> msgList=new ArrayList<>();
+    public List<MessageBomb> message_bombList = new ArrayList<>();
+    public ArrayList<MessageBomb> msgList = new ArrayList<>();
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -78,9 +78,9 @@ public class FinishHistoryActivity extends BaseActivity {
                         nullview.setVisibility(View.INVISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
                     }
-                    FirstAdapter firstAdapter = new FirstAdapter(message_bombList, FinishHistoryActivity.this);
-                    recyclerView.setAdapter(firstAdapter);
-                    firstAdapter.notifyDataSetChanged();
+                    HistoryAdapter historyAdapter = new HistoryAdapter(message_bombList, FinishHistoryActivity.this);
+                    recyclerView.setAdapter(historyAdapter);
+                    historyAdapter.notifyDataSetChanged();
                     break;
 
 
